@@ -41,6 +41,7 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Provides services for transcoding media. Transcoding is the process of
@@ -426,13 +427,22 @@ public class TranscodingService {
             return null;
         }
 
+        List<Transcoding> applicableTranscodingsPreferred = new LinkedList<Transcoding>();
         for (Transcoding transcoding : applicableTranscodings) {
             if (transcoding.getTargetFormat().equalsIgnoreCase(preferredTargetFormat)) {
-                return transcoding;
+                System.out.println("Entered IF (Transcoding)");
+                applicableTranscodingsPreferred.add(transcoding);
             }
+            int randomNum2 = ThreadLocalRandom.current().nextInt(0, applicableTranscodingsPreferred.size());
+            System.out.println("Last return of the function inside IF: "+ randomNum2);
+            return applicableTranscodingsPreferred.get(randomNum2);
         }
 
-        return applicableTranscodings.get(0);
+        // nextInt is normally exclusive of the top value,
+        // so add 1 to make it inclusive
+        int randomNum = ThreadLocalRandom.current().nextInt(0, applicableTranscodings.size());
+        System.out.println("Last return of the function: "+ randomNum);
+        return applicableTranscodings.get(randomNum);
     }
 
     /**
