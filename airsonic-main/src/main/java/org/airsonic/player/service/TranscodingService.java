@@ -433,6 +433,8 @@ public class TranscodingService {
                 System.out.println("Entered IF (Transcoding)");
                 applicableTranscodingsPreferred.add(transcoding);
             }
+        }
+        if (applicableTranscodingsPreferred.size()>0){
             int randomNum2 = ThreadLocalRandom.current().nextInt(0, applicableTranscodingsPreferred.size());
             System.out.println("Last return of the function inside IF: "+ randomNum2);
             return applicableTranscodingsPreferred.get(randomNum2);
