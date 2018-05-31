@@ -102,7 +102,19 @@ public class TranscodingService {
     public void setTranscodingsForPlayer(Player player, List<Transcoding> transcodings) {
         int[] transcodingIds = new int[transcodings.size()];
         for (int i = 0; i < transcodingIds.length; i++) {
-            transcodingIds[i] = transcodings.get(i).getId();
+            if(player.getApiLevel()<23 && transcodings.get(i).getTargetFormat().equals("ogg")){
+
+                StringBuffer buf = new StringBuffer("New player: "+player.getApiLevel()+" API, disabling transcorder format: "+transcodings.get(i).getTargetFormat());
+                LOG.info(buf.toString());
+
+            } else if((player.getApiLevel()<21 || player.getApiLevel()>=23)&& transcodings.get(i).getTargetFormat().equals("mka")){
+                StringBuffer buf = new StringBuffer("New player: "+player.getApiLevel()+" API, disabling transcorder format: "+transcodings.get(i).getTargetFormat());
+                LOG.info(buf.toString());
+            } else {
+                StringBuffer buf = new StringBuffer("New player: "+player.getApiLevel()+" API, adding transcorder format: "+transcodings.get(i).getTargetFormat());
+                LOG.info(buf.toString());
+                transcodingIds[i] = transcodings.get(i).getId();
+            }
         }
         setTranscodingsForPlayer(player, transcodingIds);
     }

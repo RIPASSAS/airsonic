@@ -38,6 +38,7 @@ public class Player {
     private String type;
     private String username;
     private String ipAddress;
+    private int apiLevel;
     private boolean isDynamicIp = true;
     private boolean isAutoControlEnabled = true;
     private boolean isM3uBomEnabled = true;
@@ -80,6 +81,14 @@ public class Player {
      */
     public void setName(String name) {
         this.name = name;
+    }
+
+    public int getApiLevel() {
+        return apiLevel;
+    }
+
+    public void setApiLevel(int apiLevel) {
+        this.apiLevel = apiLevel;
     }
 
     /**
