@@ -100,22 +100,25 @@ public class TranscodingService {
      * @param transcodings The active transcodings.
      */
     public void setTranscodingsForPlayer(Player player, List<Transcoding> transcodings) {
-        int[] transcodingIds = new int[transcodings.size()];
-        for (int i = 0; i < transcodingIds.length; i++) {
-            if(player.getApiLevel()<23 && transcodings.get(i).getTargetFormat().equals("ogg")){
+        LinkedList<Integer> transcodingIdsList = new LinkedList<Integer>();
+        for (int i = 0; i < transcodings.size(); i++) {
 
+            if(transcodings.get(i).getTargetFormat().equals("ogg") && player.getApiLevel()<23){
                 StringBuffer buf = new StringBuffer("New player: "+player.getApiLevel()+" API, disabling transcorder format: "+transcodings.get(i).getTargetFormat());
                 LOG.info(buf.toString());
-
-            } else if((player.getApiLevel()<21 || player.getApiLevel()>=23)&& transcodings.get(i).getTargetFormat().equals("mka")){
+            /*} else if(transcodings.get(i).getTargetFormat().equals("mka") && (player.getApiLevel()<21 || player.getApiLevel()>=23)){
                 StringBuffer buf = new StringBuffer("New player: "+player.getApiLevel()+" API, disabling transcorder format: "+transcodings.get(i).getTargetFormat());
-                LOG.info(buf.toString());
+                LOG.info(buf.toString()); */
             } else {
                 StringBuffer buf = new StringBuffer("New player: "+player.getApiLevel()+" API, adding transcorder format: "+transcodings.get(i).getTargetFormat());
                 LOG.info(buf.toString());
-                transcodingIds[i] = transcodings.get(i).getId();
+                transcodingIdsList.add(transcodings.get(i).getId());
             }
+
         }
+        int[] transcodingIds = new int[transcodingIdsList.size()];
+        for(int i = 0;i < transcodingIds.length;i++)
+            transcodingIds[i] = transcodingIdsList.get(i);
         setTranscodingsForPlayer(player, transcodingIds);
     }
 
