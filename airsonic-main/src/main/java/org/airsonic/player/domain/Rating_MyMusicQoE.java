@@ -20,49 +20,89 @@
 package org.airsonic.player.domain;
 
 /**
- * Represent a user.
+ * Represent a MyMusicQoE rating.
  *
- * @author Sindre Mehus
+ * @author Tiago Martins
  */
-public class User_MyMusicQoE {
+public class Rating_MyMusicQoE {
 
     private final int id;
-    private String gender;
-    private int age;
-    private String genres;
+    private int numberOfPlaylist;
+    private int idUser_MyMusicQoE;
+    private int idMediaFile;
+    private String transcodedContentType;
+    private String transcodedSuffix;
+    private int transcodedBitrate;
+    private int rating;
 
-    public User_MyMusicQoE(int id, String gender, int age, String genres) {
+    public Rating_MyMusicQoE(int id, int numberOfPlaylist, int idUser_MyMusicQoE, int idMediaFile, String transcodedContentType, String transcodedSuffix, int transcodedBitrate, int rating) {
         this.id = id;
-        this.gender = gender;
-        this.age = age;
-        this.genres = genres;
+        this.numberOfPlaylist = numberOfPlaylist;
+        this.idUser_MyMusicQoE = idUser_MyMusicQoE;
+        this.idMediaFile = idMediaFile;
+        this.transcodedContentType = transcodedContentType;
+        this.transcodedSuffix = transcodedSuffix;
+        this.transcodedBitrate = transcodedBitrate;
+        this.rating = rating;
     }
 
     public int getId() {
         return id;
     }
 
-    public String getGender() {
-        return gender;
+    public int getNumberOfPlaylist() {
+        return numberOfPlaylist;
     }
 
-    public void setGender(String gender) {
-        this.gender = gender;
+    public void setNumberOfPlaylist(int numberOfPlaylist) {
+        this.numberOfPlaylist = numberOfPlaylist;
     }
 
-    public int getAge() {
-        return age;
+    public int getIdUser_MyMusicQoE() {
+        return idUser_MyMusicQoE;
     }
 
-    public void setAge(int age) {
-        this.age = age;
+    public void setIdUser_MyMusicQoE(int idUser_MyMusicQoE) {
+        this.idUser_MyMusicQoE = idUser_MyMusicQoE;
     }
 
-    public String getGenres() {
-        return genres;
+    public int getIdMediaFile() {
+        return idMediaFile;
     }
 
-    public void setGenres(String genres) {
-        this.genres = genres;
+    public void setIdMediaFile(int idMediaFile) {
+        this.idMediaFile = idMediaFile;
+    }
+
+    public String getTranscodedContentType() {
+        return transcodedContentType;
+    }
+
+    public void setTranscodedContentType(String transcodedContentType) {
+        this.transcodedContentType = transcodedContentType;
+    }
+
+    public String getTranscodedSuffix() {
+        return transcodedSuffix;
+    }
+
+    public void setTranscodedSuffix(String transcodedSuffix) {
+        this.transcodedSuffix = transcodedSuffix;
+    }
+
+    public int getTranscodedBitrate() {
+        return transcodedBitrate;
+    }
+
+    public void setTranscodedBitrate(int transcodedBitrate) {
+        this.transcodedBitrate = transcodedBitrate;
+    }
+
+    public int getRating() {
+        return rating;
+    }
+
+    public void setRating(int rating) {
+        this.rating = rating;
     }
 }

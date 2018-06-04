@@ -41,7 +41,6 @@ import java.io.InputStream;
 import java.util.Arrays;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.concurrent.ThreadLocalRandom;
 
 /**
  * Provides services for transcoding media. Transcoding is the process of
@@ -167,8 +166,8 @@ public class TranscodingService {
      * @return Whether transcoding  will be performed if invoking the
      *         {@link #getTranscodedInputStream} method with the same arguments.
      */
-    public boolean isTranscodingRequired(MediaFile mediaFile, Player player) {
-        return getTranscoding(mediaFile, player, null, false) != null;
+    public boolean isTranscodingRequired(MediaFile mediaFile, Player player, int transcoderNum) {
+        return getTranscoding(mediaFile, player, null, false, transcoderNum) != null;
     }
 
     /**
@@ -179,10 +178,11 @@ public class TranscodingService {
      * @param preferredTargetFormat Used to select among multiple applicable transcodings. May be {@code null}.
      * @return The file suffix, e.g., "mp3".
      */
-    public String getSuffix(Player player, MediaFile file, String preferredTargetFormat) {
-        Transcoding transcoding = getTranscoding(file, player, preferredTargetFormat, false);
+    public String getSuffix(Player player, MediaFile file, String preferredTargetFormat, int transcoderNum) {
+        Transcoding transcoding = getTranscoding(file, player, preferredTargetFormat, false, transcoderNum);
         return transcoding != null ? transcoding.getTargetFormat() : file.getFormat();
     }
+
 
     /**
      * Creates parameters for a possibly transcoded or downsampled input stream for the given media file and player combination.
@@ -203,7 +203,7 @@ public class TranscodingService {
      * @return Parameters to be used in the {@link #getTranscodedInputStream} method.
      */
     public Parameters getParameters(MediaFile mediaFile, Player player, Integer maxBitRate, String preferredTargetFormat,
-                                    VideoTranscodingSettings videoTranscodingSettings) {
+                                    VideoTranscodingSettings videoTranscodingSettings, int transcoderNum) {
 
         Parameters parameters = new Parameters(mediaFile, videoTranscodingSettings);
 
@@ -213,7 +213,7 @@ public class TranscodingService {
         }
 
         boolean hls = videoTranscodingSettings != null && videoTranscodingSettings.isHls();
-        Transcoding transcoding = getTranscoding(mediaFile, player, preferredTargetFormat, hls);
+        Transcoding transcoding = getTranscoding(mediaFile, player, preferredTargetFormat, hls, transcoderNum);
         if (transcoding != null) {
             parameters.setTranscoding(transcoding);
             if (maxBitRate == null) {
@@ -402,7 +402,7 @@ public class TranscodingService {
      * Returns an applicable transcoding for the given file and player, or <code>null</code> if no
      * transcoding should be done.
      */
-    private Transcoding getTranscoding(MediaFile mediaFile, Player player, String preferredTargetFormat, boolean hls) {
+    private Transcoding getTranscoding(MediaFile mediaFile, Player player, String preferredTargetFormat, boolean hls, int transcoderNum) {
 
         if (hls) {
             return new Transcoding(null, "hls", mediaFile.getFormat(), "ts", settingsService.getHlsCommand(), null, null, true);
@@ -445,21 +445,20 @@ public class TranscodingService {
         List<Transcoding> applicableTranscodingsPreferred = new LinkedList<Transcoding>();
         for (Transcoding transcoding : applicableTranscodings) {
             if (transcoding.getTargetFormat().equalsIgnoreCase(preferredTargetFormat)) {
-                System.out.println("Entered IF (Transcoding)");
                 applicableTranscodingsPreferred.add(transcoding);
             }
         }
+
         if (applicableTranscodingsPreferred.size()>0){
-            int randomNum2 = ThreadLocalRandom.current().nextInt(0, applicableTranscodingsPreferred.size());
-            System.out.println("Last return of the function inside IF: "+ randomNum2);
-            return applicableTranscodingsPreferred.get(randomNum2);
+            // Uses random number to select transcoder
+            return applicableTranscodingsPreferred.get(transcoderNum);
         }
 
         // nextInt is normally exclusive of the top value,
         // so add 1 to make it inclusive
-        int randomNum = ThreadLocalRandom.current().nextInt(0, applicableTranscodings.size());
-        System.out.println("Last return of the function: "+ randomNum);
-        return applicableTranscodings.get(randomNum);
+        //int transcoderNum = ThreadLocalRandom.current().nextInt(0, applicableTranscodings.size());
+        // Uses random number to select transcoder
+        return applicableTranscodings.get(transcoderNum);
     }
 
     /**

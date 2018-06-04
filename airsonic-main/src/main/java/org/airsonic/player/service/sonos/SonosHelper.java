@@ -567,7 +567,9 @@ public class SonosHelper {
 
     public MediaMetadata forSong(MediaFile song, String username, HttpServletRequest request) {
         Player player = createPlayerIfNecessary(username);
-        String suffix = transcodingService.getSuffix(player, song, null);
+        // TODO TIAGO: transcoderNum for transacoder
+        int transcoderNum = 0;
+        String suffix = transcodingService.getSuffix(player, song, null, transcoderNum);
         mediaFileService.populateStarredDate(song, username);
 
         MediaMetadata result = new MediaMetadata();

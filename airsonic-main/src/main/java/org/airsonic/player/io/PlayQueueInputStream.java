@@ -102,6 +102,8 @@ public class PlayQueueInputStream extends InputStream {
 
     private void prepare() throws IOException {
         PlayQueue playQueue = player.getPlayQueue();
+        // TODO TIAGO: transcoderNum for transacoder
+        int transcoderNum = 0;
 
         // If playlist is in auto-random mode, populate it with new random songs.
         if (playQueue.getIndex() == -1 && playQueue.getRandomSearchCriteria() != null) {
@@ -125,7 +127,7 @@ public class PlayQueueInputStream extends InputStream {
                 audioScrobblerService.register(file, player.getUsername(), false, null);
             }
 
-            TranscodingService.Parameters parameters = transcodingService.getParameters(file, player, maxBitRate, preferredTargetFormat, videoTranscodingSettings);
+            TranscodingService.Parameters parameters = transcodingService.getParameters(file, player, maxBitRate, preferredTargetFormat, videoTranscodingSettings, transcoderNum);
             currentInputStream = transcodingService.getTranscodedInputStream(parameters);
             currentFile = file;
             status.setFile(currentFile.getFile());

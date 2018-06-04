@@ -19,7 +19,7 @@
  */
 package org.airsonic.player.dao;
 
-import org.airsonic.player.domain.Transcoding;
+import org.airsonic.player.domain.User_MyMusicQoE;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.jdbc.core.RowMapper;
@@ -31,102 +31,87 @@ import java.sql.SQLException;
 import java.util.List;
 
 /**
- * Provides database services for transcoding configurations.
+ * Provides database services for user from MyMusicQoE.
  *
- * @author Sindre Mehus
+ * @author Tiago Martins
  */
 @Repository
-public class TranscodingDao extends AbstractDao {
+public class User_MyMusicQoEDao extends AbstractDao {
 
-    private static final Logger LOG = LoggerFactory.getLogger(TranscodingDao.class);
-    private static final String INSERT_COLUMNS = "name, source_formats, target_format, step1, step2, step3, default_active";
-    private static final String QUERY_COLUMNS = "id, " + INSERT_COLUMNS;
-    private TranscodingRowMapper rowMapper = new TranscodingRowMapper();
+    private static final Logger LOG = LoggerFactory.getLogger(User_MyMusicQoEDao.class);
+    private static final String INSERT_COLUMNS = "id, gender, age, genres";
+    private static final String QUERY_COLUMNS = INSERT_COLUMNS;
+    private User_MyMusicQoERowMapper rowMapper = new User_MyMusicQoERowMapper();
 
     /**
-     * Returns all transcodings.
+     * Returns all users.
      *
-     * @return Possibly empty list of all transcodings.
+     * @return Possibly empty list of all users.
      */
-    public List<Transcoding> getAllTranscodings() {
-        String sql = "select " + QUERY_COLUMNS + " from transcoding2";
+    public List<User_MyMusicQoE> getAllUsers() {
+        String sql = "select " + QUERY_COLUMNS + " from user_mymusicqoe";
         return query(sql, rowMapper);
     }
 
     /**
-     * Returns all active transcodings for the given player.
+     * Returns all users with the given gender.
      *
-     * @param playerId The player ID.
-     * @return All active transcodings for the player.
+     * @param gender The user's gender.
+     * @return All users with the given gender.
      */
-    public List<Transcoding> getTranscodingsForPlayer(String playerId) {
-        String sql = "select " + QUERY_COLUMNS + " from transcoding2, player_transcoding2 " +
-                     "where player_transcoding2.player_id = ? " +
-                     "and   player_transcoding2.transcoding_id = transcoding2.id";
-        return query(sql, rowMapper, playerId);
+    public List<User_MyMusicQoE> getAllUsersWithGender(String gender) {
+        String sql = "select " + QUERY_COLUMNS + " from user_mymusicqoe " +
+                      "where gender = ?";
+        return query(sql, rowMapper, gender);
     }
 
-    /**
-     * Sets the list of active transcodings for the given player.
-     *
-     * @param playerId       The player ID.
-     * @param transcodingIds ID's of the active transcodings.
-     */
-    public void setTranscodingsForPlayer(String playerId, int[] transcodingIds) {
-        update("delete from player_transcoding2 where player_id = ?", playerId);
-        String sql = "insert into player_transcoding2(player_id, transcoding_id) values (?, ?)";
-        for (int transcodingId : transcodingIds) {
-            update(sql, playerId, transcodingId);
-        }
-    }
-
-    /**
-     * Creates a new transcoding.
-     *
-     * @param transcoding The transcoding to create.
-     */
-    @Transactional
-    public void createTranscoding(Transcoding transcoding) {
-        Integer existingMax = getJdbcTemplate().queryForObject("select max(id) from transcoding2", Integer.class);
+    public int getLastUser(){
+        Integer existingMax = getJdbcTemplate().queryForObject("select max(id) from user_mymusicqoe", Integer.class);
         if(existingMax == null) {
             existingMax = 0;
         }
-        transcoding.setId(existingMax + 1);
-        String sql = "insert into transcoding2 (" + QUERY_COLUMNS + ") values (" + questionMarks(QUERY_COLUMNS) + ")";
-        update(sql, transcoding.getId(), transcoding.getName(), transcoding.getSourceFormats(),
-                transcoding.getTargetFormat(), transcoding.getStep1(),
-                transcoding.getStep2(), transcoding.getStep3(), transcoding.isDefaultActive());
-        LOG.info("Created transcoding " + transcoding.getName());
+        return existingMax;
     }
 
     /**
-     * Deletes the transcoding with the given ID.
+     * Creates a new user.
      *
-     * @param id The transcoding ID.
+     * @param user The user to create.
      */
-    public void deleteTranscoding(Integer id) {
-        String sql = "delete from transcoding2 where id=?";
+    @Transactional
+    public void createUser_MyMusicQoE(User_MyMusicQoE user) {
+        String sql = "insert into user_mymusicqoe (" + QUERY_COLUMNS + ") values (" + questionMarks(QUERY_COLUMNS) + ")";
+        update(sql, user.getId(), user.getGender(), user.getAge(),
+                user.getGenres());
+        LOG.info("Created user_mymusicqoe " + user.getId());
+    }
+
+    /**
+     * Deletes the user with the given ID.
+     *
+     * @param id The user ID.
+     */
+    public void deleteUser_MyMusicQoE(Integer id) {
+        String sql = "delete from user_mymusicqoe where id=?";
         update(sql, id);
-        LOG.info("Deleted transcoding with ID " + id);
+        LOG.info("Deleted user_mymusicqoe with ID " + id);
     }
 
     /**
      * Updates the given transcoding.
      *
-     * @param transcoding The transcoding to update.
+     * @param user The transcoding to update.
      */
-    public void updateTranscoding(Transcoding transcoding) {
-        String sql = "update transcoding2 set name=?, source_formats=?, target_format=?, " +
-                "step1=?, step2=?, step3=?, default_active=? where id=?";
-        update(sql, transcoding.getName(), transcoding.getSourceFormats(),
-                transcoding.getTargetFormat(), transcoding.getStep1(), transcoding.getStep2(),
-                transcoding.getStep3(), transcoding.isDefaultActive(), transcoding.getId());
+    public void updateUser_MyMusicQoE(User_MyMusicQoE user) {
+        String sql = "update user_mymusicqoe set age=?, =?, gender=?, " +
+                "genres=? where id=?";
+        update(sql, user.getGender(), user.getAge(),
+                user.getGenres(), user.getId());
     }
 
-    private static class TranscodingRowMapper implements RowMapper<Transcoding> {
-        public Transcoding mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Transcoding(rs.getInt(1), rs.getString(2), rs.getString(3), rs.getString(4), rs.getString(5),
-                    rs.getString(6), rs.getString(7), rs.getBoolean(8));
+    private static class User_MyMusicQoERowMapper implements RowMapper<User_MyMusicQoE> {
+        public User_MyMusicQoE mapRow(ResultSet rs, int rowNum) throws SQLException {
+            return new User_MyMusicQoE(rs.getInt(1), rs.getString(2), rs.getInt(3), rs.getString(4));
         }
     }
 }

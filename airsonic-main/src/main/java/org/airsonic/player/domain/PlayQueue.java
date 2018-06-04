@@ -32,6 +32,7 @@ import java.util.*;
 public class PlayQueue {
 
     private List<MediaFile> files = new ArrayList<MediaFile>();
+    private List<Integer> transcoderNum = new ArrayList<>();
     private boolean repeatEnabled;
     private String name = "(unnamed)";
     private Status status = Status.PLAYING;
@@ -65,6 +66,10 @@ public class PlayQueue {
      */
     public synchronized void setName(String name) {
         this.name = name;
+    }
+
+    public int getTranscoderNumAtIndex(int index){
+        return transcoderNum.get(index);
     }
 
     /**

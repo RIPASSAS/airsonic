@@ -153,13 +153,16 @@ public class PlayQueueService {
         HttpServletRequest request = WebContextFactory.get().getHttpServletRequest();
         HttpServletResponse response = WebContextFactory.get().getHttpServletResponse();
 
+        // TODO TIAGO: transcoderNum for transacoder
+        List<Integer> transcoderNum = new ArrayList<>();
+
         Player player = getCurrentPlayer(request, response);
         String username = securityService.getCurrentUsername(request);
         PlayQueue playQueue = player.getPlayQueue();
         List<Integer> ids = MediaFile.toIdList(playQueue.getFiles());
 
         Integer currentId = currentSongIndex == -1 ? null : playQueue.getFile(currentSongIndex).getId();
-        SavedPlayQueue savedPlayQueue = new SavedPlayQueue(null, username, ids, currentId, positionMillis, new Date(), "Airsonic");
+        SavedPlayQueue savedPlayQueue = new SavedPlayQueue(null, username, ids, currentId, positionMillis, new Date(), "Airsonic", transcoderNum);
         playQueueDao.savePlayQueue(savedPlayQueue);
     }
 

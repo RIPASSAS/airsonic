@@ -62,19 +62,21 @@ public class M3UController  {
         response.setCharacterEncoding(StringUtil.ENCODING_UTF8);
 
         Player player = playerService.getPlayer(request, response);
+        // TODO TIAGO: transcoderNum for transacoder
+        int transcoderNum=0;
 
         String url = NetworkService.getBaseUrl(request);
         url = url + "ext/stream?";
 
         if (player.isExternalWithPlaylist()) {
-            createClientSidePlaylist(response.getWriter(), player, url);
+            createClientSidePlaylist(response.getWriter(), player, url, transcoderNum);
         } else {
-            createServerSidePlaylist(response.getWriter(), player, url);
+            createServerSidePlaylist(response.getWriter(), player, url, transcoderNum);
         }
         return null;
     }
 
-    private void createClientSidePlaylist(PrintWriter out, Player player, String url) throws Exception {
+    private void createClientSidePlaylist(PrintWriter out, Player player, String url, int transcoderNum) throws Exception {
         if (player.isM3uBomEnabled()) {
             out.print("\ufeff");
         }
@@ -91,18 +93,18 @@ public class M3UController  {
             out.println("#EXTINF:" + duration + "," + mediaFile.getArtist() + " - " + mediaFile.getTitle());
 
             String urlNoAuth = url +  "player=" + player.getId() + "&id=" + mediaFile.getId() + "&suffix=." +
-                    transcodingService.getSuffix(player, mediaFile, null);
+                    transcodingService.getSuffix(player, mediaFile, null, transcoderNum);
             String urlWithAuth = jwtSecurityService.addJWTToken(urlNoAuth);
             out.println(urlWithAuth);
         }
     }
 
-    private void createServerSidePlaylist(PrintWriter out, Player player, String url) throws IOException {
+    private void createServerSidePlaylist(PrintWriter out, Player player, String url, int transcoderNum) throws IOException {
 
         url += "player=" + player.getId();
 
         // Get suffix of current file, e.g., ".mp3".
-        String suffix = getSuffix(player);
+        String suffix = getSuffix(player, transcoderNum);
         if (suffix != null) {
             url += "&suffix=." + suffix;
         }
@@ -115,9 +117,9 @@ public class M3UController  {
         out.println(jwtSecurityService.addJWTToken(url));
     }
 
-    private String getSuffix(Player player) {
+    private String getSuffix(Player player, int transcoderNum) {
         PlayQueue playQueue = player.getPlayQueue();
-        return playQueue.isEmpty() ? null : transcodingService.getSuffix(player, playQueue.getFile(0), null);
+        return playQueue.isEmpty() ? null : transcodingService.getSuffix(player, playQueue.getFile(0), null, transcoderNum);
     }
 
 }

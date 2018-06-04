@@ -36,13 +36,14 @@ public class SavedPlayQueue {
     private Integer id;
     private String username;
     private List<Integer> mediaFileIds;
+    private List<Integer> transcoderNum;
     private Integer currentMediaFileId;
     private Long positionMillis;
     private Date changed;
     private String changedBy;
 
     public SavedPlayQueue(Integer id, String username, List<Integer> mediaFileIds, Integer currentMediaFileId,
-                          Long positionMillis, Date changed, String changedBy) {
+                          Long positionMillis, Date changed, String changedBy, List<Integer> transcoderNum) {
         this.id = id;
         this.username = username;
         this.mediaFileIds = mediaFileIds;
@@ -50,6 +51,7 @@ public class SavedPlayQueue {
         this.positionMillis = positionMillis;
         this.changed = changed;
         this.changedBy = changedBy;
+        this.transcoderNum = transcoderNum;
     }
 
     public Integer getId() {
@@ -74,6 +76,18 @@ public class SavedPlayQueue {
 
     public void setMediaFileIds(List<Integer> mediaFileIds) {
         this.mediaFileIds = mediaFileIds;
+    }
+
+    public List<Integer> getTranscoderNum() {
+        return transcoderNum;
+    }
+
+    public void setTranscoderNum(List<Integer> transcoderNum) {
+        this.transcoderNum = transcoderNum;
+    }
+
+    public int getTranscoderNumAtIndex(int index){
+        return transcoderNum.get(index);
     }
 
     public Integer getCurrentMediaFileId() {

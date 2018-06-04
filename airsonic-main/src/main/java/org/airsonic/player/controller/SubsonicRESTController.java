@@ -203,6 +203,8 @@ public class SubsonicRESTController {
         request = wrapRequest(request);
         Response res = createResponse();
         String username = securityService.getCurrentUser(request).getUsername();
+        // TODO TIAGO: transcoderNum for transacoder
+        int transcoderNum = 0;
 
         long ifModifiedSince = getLongParameter(request, "ifModifiedSince", 0L);
         long lastModified = leftController.getLastModified(request);
@@ -261,7 +263,7 @@ public class SubsonicRESTController {
         Player player = playerService.getPlayer(request, response);
 
         for (MediaFile singleSong : musicFolderContent.getSingleSongs()) {
-            indexes.getChild().add(createJaxbChild(player, singleSong, username));
+            indexes.getChild().add(createJaxbChild(player, singleSong, username, transcoderNum));
         }
 
         res.setIndexes(indexes);
@@ -290,6 +292,8 @@ public class SubsonicRESTController {
         request = wrapRequest(request);
         Player player = playerService.getPlayer(request, response);
         String username = securityService.getCurrentUsername(request);
+        // TODO TIAGO: transcoderNum for transacoder
+        int transcoderNum = 0;
 
         Songs songs = new Songs();
 
@@ -301,7 +305,7 @@ public class SubsonicRESTController {
         List<org.airsonic.player.domain.MusicFolder> musicFolders = settingsService.getMusicFoldersForUser(username, musicFolderId);
 
         for (MediaFile mediaFile : mediaFileDao.getSongsByGenre(genre, offset, count, musicFolders)) {
-            songs.getSong().add(createJaxbChild(player, mediaFile, username));
+            songs.getSong().add(createJaxbChild(player, mediaFile, username, transcoderNum));
         }
         Response res = createResponse();
         res.setSongsByGenre(songs);
@@ -337,6 +341,8 @@ public class SubsonicRESTController {
     public void getSimilarSongs(HttpServletRequest request, HttpServletResponse response) throws Exception {
         request = wrapRequest(request);
         String username = securityService.getCurrentUsername(request);
+        // TODO TIAGO: transcoderNum for transacoder
+        int transcoderNum = 0;
 
         int id = getRequiredIntParameter(request, "id");
         int count = getIntParameter(request, "count", 50);
@@ -352,7 +358,7 @@ public class SubsonicRESTController {
         List<MediaFile> similarSongs = lastFmService.getSimilarSongs(mediaFile, count, musicFolders);
         Player player = playerService.getPlayer(request, response);
         for (MediaFile similarSong : similarSongs) {
-            result.getSong().add(createJaxbChild(player, similarSong, username));
+            result.getSong().add(createJaxbChild(player, similarSong, username, transcoderNum));
         }
 
         Response res = createResponse();
@@ -364,6 +370,8 @@ public class SubsonicRESTController {
     public void getSimilarSongs2(HttpServletRequest request, HttpServletResponse response) throws Exception {
         request = wrapRequest(request);
         String username = securityService.getCurrentUsername(request);
+        // TODO TIAGO: transcoderNum for transacoder
+        int transcoderNum = 0;
 
         int id = getRequiredIntParameter(request, "id");
         int count = getIntParameter(request, "count", 50);
@@ -380,7 +388,7 @@ public class SubsonicRESTController {
         List<MediaFile> similarSongs = lastFmService.getSimilarSongs(artist, count, musicFolders);
         Player player = playerService.getPlayer(request, response);
         for (MediaFile similarSong : similarSongs) {
-            result.getSong().add(createJaxbChild(player, similarSong, username));
+            result.getSong().add(createJaxbChild(player, similarSong, username, transcoderNum));
         }
 
         Response res = createResponse();
@@ -392,6 +400,8 @@ public class SubsonicRESTController {
     public void getTopSongs(HttpServletRequest request, HttpServletResponse response) throws Exception {
         request = wrapRequest(request);
         String username = securityService.getCurrentUsername(request);
+        // TODO TIAGO: transcoderNum for transacoder
+        int transcoderNum = 0;
 
         String artist = getRequiredStringParameter(request, "artist");
         int count = getIntParameter(request, "count", 50);
@@ -402,7 +412,7 @@ public class SubsonicRESTController {
         List<MediaFile> topSongs = lastFmService.getTopSongs(artist, count, musicFolders);
         Player player = playerService.getPlayer(request, response);
         for (MediaFile topSong : topSongs) {
-            result.getSong().add(createJaxbChild(player, topSong, username));
+            result.getSong().add(createJaxbChild(player, topSong, username, transcoderNum));
         }
 
         Response res = createResponse();
@@ -571,6 +581,8 @@ public class SubsonicRESTController {
         request = wrapRequest(request);
         Player player = playerService.getPlayer(request, response);
         String username = securityService.getCurrentUsername(request);
+        // TODO TIAGO: transcoderNum for transacoder
+        int transcoderNum = 0;
 
         int id = getRequiredIntParameter(request, "id");
         Album album = albumDao.getAlbum(id);
@@ -581,7 +593,7 @@ public class SubsonicRESTController {
 
         AlbumWithSongsID3 result = createJaxbAlbum(new AlbumWithSongsID3(), album, username);
         for (MediaFile mediaFile : mediaFileDao.getSongsForAlbum(album.getArtist(), album.getName())) {
-            result.getSong().add(createJaxbChild(player, mediaFile, username));
+            result.getSong().add(createJaxbChild(player, mediaFile, username, transcoderNum));
         }
 
         Response res = createResponse();
@@ -594,6 +606,8 @@ public class SubsonicRESTController {
         request = wrapRequest(request);
         Player player = playerService.getPlayer(request, response);
         String username = securityService.getCurrentUsername(request);
+        // TODO TIAGO: transcoderNum for transacoder
+        int transcoderNum = 0;
 
         int id = getRequiredIntParameter(request, "id");
         MediaFile song = mediaFileDao.getMediaFile(id);
@@ -607,7 +621,7 @@ public class SubsonicRESTController {
         }
 
         Response res = createResponse();
-        res.setSong(createJaxbChild(player, song, username));
+        res.setSong(createJaxbChild(player, song, username, transcoderNum));
         jaxbWriter.writeResponse(request, response, res);
     }
 
@@ -616,6 +630,8 @@ public class SubsonicRESTController {
         request = wrapRequest(request);
         Player player = playerService.getPlayer(request, response);
         String username = securityService.getCurrentUsername(request);
+        // TODO TODO TIAGO: transcoderNum for transacoder
+        int transcoderNum = 0;
 
         int id = getRequiredIntParameter(request, "id");
         MediaFile dir = mediaFileService.getMediaFile(id);
@@ -648,7 +664,7 @@ public class SubsonicRESTController {
         }
 
         for (MediaFile child : mediaFileService.getChildrenOf(dir, true, true, true)) {
-            directory.getChild().add(createJaxbChild(player, child, username));
+            directory.getChild().add(createJaxbChild(player, child, username, transcoderNum));
         }
 
         Response res = createResponse();
@@ -661,6 +677,8 @@ public class SubsonicRESTController {
         request = wrapRequest(request);
         Player player = playerService.getPlayer(request, response);
         String username = securityService.getCurrentUsername(request);
+        // TODO TODO TIAGO: transcoderNum for transacoder
+        int transcoderNum = 0;
 
         String any = request.getParameter("any");
         String artist = request.getParameter("artist");
@@ -693,7 +711,7 @@ public class SubsonicRESTController {
         searchResult.setTotalHits(result.getTotalHits());
 
         for (MediaFile mediaFile : result.getMediaFiles()) {
-            searchResult.getMatch().add(createJaxbChild(player, mediaFile, username));
+            searchResult.getMatch().add(createJaxbChild(player, mediaFile, username, transcoderNum));
         }
         Response res = createResponse();
         res.setSearchResult(searchResult);
@@ -707,6 +725,8 @@ public class SubsonicRESTController {
         String username = securityService.getCurrentUsername(request);
         Integer musicFolderId = getIntParameter(request, "musicFolderId");
         List<org.airsonic.player.domain.MusicFolder> musicFolders = settingsService.getMusicFoldersForUser(username, musicFolderId);
+        // TODO TODO TIAGO: transcoderNum for transacoder
+        int transcoderNum = 0;
 
         SearchResult2 searchResult = new SearchResult2();
 
@@ -724,14 +744,14 @@ public class SubsonicRESTController {
         criteria.setOffset(getIntParameter(request, "albumOffset", 0));
         org.airsonic.player.domain.SearchResult albums = searchService.search(criteria, musicFolders, SearchService.IndexType.ALBUM);
         for (MediaFile mediaFile : albums.getMediaFiles()) {
-            searchResult.getAlbum().add(createJaxbChild(player, mediaFile, username));
+            searchResult.getAlbum().add(createJaxbChild(player, mediaFile, username, transcoderNum));
         }
 
         criteria.setCount(getIntParameter(request, "songCount", 20));
         criteria.setOffset(getIntParameter(request, "songOffset", 0));
         org.airsonic.player.domain.SearchResult songs = searchService.search(criteria, musicFolders, SearchService.IndexType.SONG);
         for (MediaFile mediaFile : songs.getMediaFiles()) {
-            searchResult.getSong().add(createJaxbChild(player, mediaFile, username));
+            searchResult.getSong().add(createJaxbChild(player, mediaFile, username, transcoderNum));
         }
 
         Response res = createResponse();
@@ -746,6 +766,8 @@ public class SubsonicRESTController {
         String username = securityService.getCurrentUsername(request);
         Integer musicFolderId = getIntParameter(request, "musicFolderId");
         List<org.airsonic.player.domain.MusicFolder> musicFolders = settingsService.getMusicFoldersForUser(username, musicFolderId);
+        // TODO TIAGO: transcoderNum for transacoder
+        int transcoderNum = 0;
 
         SearchResult3 searchResult = new SearchResult3();
 
@@ -770,7 +792,7 @@ public class SubsonicRESTController {
         criteria.setOffset(getIntParameter(request, "songOffset", 0));
         result = searchService.search(criteria, musicFolders, SearchService.IndexType.SONG);
         for (MediaFile song : result.getMediaFiles()) {
-            searchResult.getSong().add(createJaxbChild(player, song, username));
+            searchResult.getSong().add(createJaxbChild(player, song, username, transcoderNum));
         }
 
         Response res = createResponse();
@@ -809,6 +831,8 @@ public class SubsonicRESTController {
         request = wrapRequest(request);
         Player player = playerService.getPlayer(request, response);
         String username = securityService.getCurrentUsername(request);
+        // TODO TIAGO: transcoderNum for transacoder
+        int transcoderNum = 0;
 
         int id = getRequiredIntParameter(request, "id");
 
@@ -824,7 +848,7 @@ public class SubsonicRESTController {
         PlaylistWithSongs result = createJaxbPlaylist(new PlaylistWithSongs(), playlist);
         for (MediaFile mediaFile : playlistService.getFilesInPlaylist(id)) {
             if (securityService.isFolderAccessAllowed(mediaFile, username)) {
-                result.getEntry().add(createJaxbChild(player, mediaFile, username));
+                result.getEntry().add(createJaxbChild(player, mediaFile, username, transcoderNum));
             }
         }
 
@@ -836,6 +860,8 @@ public class SubsonicRESTController {
     @RequestMapping(value = "/jukeboxControl")
     public void jukeboxControl(HttpServletRequest request, HttpServletResponse response) throws Exception {
         request = wrapRequest(request, true);
+        // TODO TIAGO: transcoderNum for transacoder
+        int transcoderNum = 0;
 
         org.airsonic.player.domain.User user = securityService.getCurrentUser(request);
         if (!user.isJukeboxRole()) {
@@ -917,7 +943,7 @@ public class SubsonicRESTController {
             result.setGain(gain);
             result.setPosition(position);
             for (MediaFile mediaFile : playQueue.getFiles()) {
-                result.getEntry().add(createJaxbChild(player, mediaFile, username));
+                result.getEntry().add(createJaxbChild(player, mediaFile, username, transcoderNum));
             }
         } else {
             JukeboxStatus result = new JukeboxStatus();
@@ -1069,6 +1095,8 @@ public class SubsonicRESTController {
         request = wrapRequest(request);
         Player player = playerService.getPlayer(request, response);
         String username = securityService.getCurrentUsername(request);
+        // TODO TIAGO: transcoderNum for transacoder
+        int transcoderNum = 0;
 
         int size = getIntParameter(request, "size", 10);
         int offset = getIntParameter(request, "offset", 0);
@@ -1107,7 +1135,7 @@ public class SubsonicRESTController {
 
         AlbumList result = new AlbumList();
         for (MediaFile album : albums) {
-            result.getAlbum().add(createJaxbChild(player, album, username));
+            result.getAlbum().add(createJaxbChild(player, album, username, transcoderNum));
         }
 
         Response res = createResponse();
@@ -1164,6 +1192,8 @@ public class SubsonicRESTController {
         request = wrapRequest(request);
         Player player = playerService.getPlayer(request, response);
         String username = securityService.getCurrentUsername(request);
+        // TODO TIAGO: transcoderNum for transacoder
+        int transcoderNum = 0;
 
         int size = getIntParameter(request, "size", 10);
         size = Math.max(0, Math.min(size, 500));
@@ -1176,7 +1206,7 @@ public class SubsonicRESTController {
 
         Songs result = new Songs();
         for (MediaFile mediaFile : searchService.getRandomSongs(criteria)) {
-            result.getSong().add(createJaxbChild(player, mediaFile, username));
+            result.getSong().add(createJaxbChild(player, mediaFile, username, transcoderNum));
         }
         Response res = createResponse();
         res.setRandomSongs(result);
@@ -1188,6 +1218,8 @@ public class SubsonicRESTController {
         request = wrapRequest(request);
         Player player = playerService.getPlayer(request, response);
         String username = securityService.getCurrentUsername(request);
+        // TODO TIAGO: transcoderNum for transacoder
+        int transcoderNum = 0;
 
         int size = getIntParameter(request, "size", Integer.MAX_VALUE);
         int offset = getIntParameter(request, "offset", 0);
@@ -1195,7 +1227,7 @@ public class SubsonicRESTController {
 
         Videos result = new Videos();
         for (MediaFile mediaFile : mediaFileDao.getVideos(size, offset, musicFolders)) {
-            result.getVideo().add(createJaxbChild(player, mediaFile, username));
+            result.getVideo().add(createJaxbChild(player, mediaFile, username, transcoderNum));
         }
         Response res = createResponse();
         res.setVideos(result);
@@ -1206,6 +1238,8 @@ public class SubsonicRESTController {
     public void getNowPlaying(HttpServletRequest request, HttpServletResponse response) throws Exception {
         request = wrapRequest(request);
         NowPlaying result = new NowPlaying();
+        // TODO TIAGO: transcoderNum for transacoder
+        int transcoderNum = 0;
 
         for (PlayStatus status : statusService.getPlayStatuses()) {
 
@@ -1228,7 +1262,7 @@ public class SubsonicRESTController {
                 entry.setPlayerId(Integer.parseInt(player.getId()));
                 entry.setPlayerName(player.getName());
                 entry.setMinutesAgo((int) minutesAgo);
-                result.getEntry().add(createJaxbChild(entry, player, mediaFile, username));
+                result.getEntry().add(createJaxbChild(entry, player, mediaFile, username,transcoderNum));
             }
         }
 
@@ -1237,12 +1271,13 @@ public class SubsonicRESTController {
         jaxbWriter.writeResponse(request, response, res);
     }
 
-    private Child createJaxbChild(Player player, MediaFile mediaFile, String username) {
-        return createJaxbChild(new Child(), player, mediaFile, username);
+    private Child createJaxbChild(Player player, MediaFile mediaFile, String username, int transcoderNum) {
+        return createJaxbChild(new Child(), player, mediaFile, username, transcoderNum);
     }
 
-    private <T extends Child> T createJaxbChild(T child, Player player, MediaFile mediaFile, String username) {
+    private <T extends Child> T createJaxbChild(T child, Player player, MediaFile mediaFile, String username, int transcoderNum) {
         MediaFile parent = mediaFileService.getParentOf(mediaFile);
+        List<Transcoding> playerTranscodings = new ArrayList<>();
         child.setId(String.valueOf(mediaFile.getId()));
         try {
             if (!mediaFileService.isRoot(parent)) {
@@ -1312,10 +1347,28 @@ public class SubsonicRESTController {
                     break;
             }
 
-            if (transcodingService.isTranscodingRequired(mediaFile, player)) {
-                String transcodedSuffix = transcodingService.getSuffix(player, mediaFile, null);
+            if (transcodingService.isTranscodingRequired(mediaFile, player,transcoderNum)) {
+                String transcodedSuffix = transcodingService.getSuffix(player, mediaFile, null,transcoderNum);
                 child.setTranscodedSuffix(transcodedSuffix);
                 child.setTranscodedContentType(StringUtil.getMimeType(transcodedSuffix));
+
+                // TIAGO MARTINS: sends list of transcoder active for player and compatible with the file
+                playerTranscodings = transcodingService.getTranscodingsForPlayer(player);
+
+                StringBuilder applicableTranscodings = new StringBuilder();
+
+                for (Transcoding transcoding : playerTranscodings) {
+                    for (String sourceFormat : transcoding.getSourceFormatsAsArray()) {
+                        if (sourceFormat.equalsIgnoreCase(suffix)) {
+                            applicableTranscodings.append(transcoding.getId());
+                            applicableTranscodings.append("/");
+                        }
+                    }
+                }
+
+                applicableTranscodings.deleteCharAt(applicableTranscodings.length()-1);
+
+                child.setApplicableTranscodings(applicableTranscodings.toString());
             }
         }
         return child;
@@ -1383,12 +1436,14 @@ public class SubsonicRESTController {
     @RequestMapping(value = "/stream")
     public void stream(HttpServletRequest request, HttpServletResponse response) throws Exception {
         request = wrapRequest(request);
+
         org.airsonic.player.domain.User user = securityService.getCurrentUser(request);
         if (!user.isStreamRole()) {
             error(request, response, ErrorCode.NOT_AUTHORIZED, user.getUsername() + " is not authorized to play files.");
             return;
         }
 
+        System.out.println("API Request /stream: "+request.toString());
         streamController.handleRequest(request, response);
     }
 
@@ -1507,16 +1562,18 @@ public class SubsonicRESTController {
         String username = securityService.getCurrentUsername(request);
         Integer musicFolderId = getIntParameter(request, "musicFolderId");
         List<org.airsonic.player.domain.MusicFolder> musicFolders = settingsService.getMusicFoldersForUser(username, musicFolderId);
+        // TODO TIAGO: transcoderNum for transacoder
+        int transcoderNum = 0;
 
         Starred result = new Starred();
         for (MediaFile artist : mediaFileDao.getStarredDirectories(0, Integer.MAX_VALUE, username, musicFolders)) {
             result.getArtist().add(createJaxbArtist(artist, username));
         }
         for (MediaFile album : mediaFileDao.getStarredAlbums(0, Integer.MAX_VALUE, username, musicFolders)) {
-            result.getAlbum().add(createJaxbChild(player, album, username));
+            result.getAlbum().add(createJaxbChild(player, album, username, transcoderNum));
         }
         for (MediaFile song : mediaFileDao.getStarredFiles(0, Integer.MAX_VALUE, username, musicFolders)) {
-            result.getSong().add(createJaxbChild(player, song, username));
+            result.getSong().add(createJaxbChild(player, song, username, transcoderNum));
         }
         Response res = createResponse();
         res.setStarred(result);
@@ -1530,6 +1587,8 @@ public class SubsonicRESTController {
         String username = securityService.getCurrentUsername(request);
         Integer musicFolderId = getIntParameter(request, "musicFolderId");
         List<org.airsonic.player.domain.MusicFolder> musicFolders = settingsService.getMusicFoldersForUser(username, musicFolderId);
+        // TODO TIAGO: transcoderNum for transacoder
+        int transcoderNum = 0;
 
         Starred2 result = new Starred2();
         for (org.airsonic.player.domain.Artist artist : artistDao.getStarredArtists(0, Integer.MAX_VALUE, username, musicFolders)) {
@@ -1539,7 +1598,7 @@ public class SubsonicRESTController {
             result.getAlbum().add(createJaxbAlbum(new AlbumID3(), album, username));
         }
         for (MediaFile song : mediaFileDao.getStarredFiles(0, Integer.MAX_VALUE, username, musicFolders)) {
-            result.getSong().add(createJaxbChild(player, song, username));
+            result.getSong().add(createJaxbChild(player, song, username, transcoderNum));
         }
         Response res = createResponse();
         res.setStarred2(result);
@@ -1608,7 +1667,7 @@ public class SubsonicRESTController {
         String path = episode.getPath();
         if (path != null) {
             MediaFile mediaFile = mediaFileService.getMediaFile(path);
-            e = createJaxbChild(new org.subsonic.restapi.PodcastEpisode(), player, mediaFile, username);
+            e = createJaxbChild(new org.subsonic.restapi.PodcastEpisode(), player, mediaFile, username, 0);
             e.setStreamId(String.valueOf(mediaFile.getId()));
         }
 
@@ -1718,6 +1777,8 @@ public class SubsonicRESTController {
         request = wrapRequest(request);
         Player player = playerService.getPlayer(request, response);
         String username = securityService.getCurrentUsername(request);
+        // TODO TIAGO: transcoderNum for transacoder
+        int transcoderNum = 0;
 
         Bookmarks result = new Bookmarks();
         for (Bookmark bookmark : bookmarkService.getBookmarks(username)) {
@@ -1730,7 +1791,7 @@ public class SubsonicRESTController {
             b.setChanged(jaxbWriter.convertDate(bookmark.getChanged()));
 
             MediaFile mediaFile = mediaFileService.getMediaFile(bookmark.getMediaFileId());
-            b.setEntry(createJaxbChild(player, mediaFile, username));
+            b.setEntry(createJaxbChild(player, mediaFile, username, transcoderNum));
         }
 
         Response res = createResponse();
@@ -1768,6 +1829,9 @@ public class SubsonicRESTController {
         request = wrapRequest(request);
         String username = securityService.getCurrentUsername(request);
         Player player = playerService.getPlayer(request, response);
+        // DONE TIAGO: transcoderNum for transacoder
+        int transcoderNum = 0;
+        int index = 0;
 
         SavedPlayQueue playQueue = playQueueDao.getPlayQueue(username);
         if (playQueue == null) {
@@ -1784,8 +1848,9 @@ public class SubsonicRESTController {
 
         for (Integer mediaFileId : playQueue.getMediaFileIds()) {
             MediaFile mediaFile = mediaFileService.getMediaFile(mediaFileId);
+            transcoderNum = playQueue.getTranscoderNumAtIndex(index);
             if (mediaFile != null) {
-                restPlayQueue.getEntry().add(createJaxbChild(player, mediaFile, username));
+                restPlayQueue.getEntry().add(createJaxbChild(player, mediaFile, username, transcoderNum));
             }
         }
 
@@ -1803,13 +1868,15 @@ public class SubsonicRESTController {
         Long position = getLongParameter(request, "position");
         Date changed = new Date();
         String changedBy = getRequiredStringParameter(request, "c");
+        // TODO TIAGO: transcoderNum for transacoder
+        List<Integer> transcoderNum = new ArrayList<>();
 
         if (!mediaFileIds.contains(current)) {
             error(request, response, ErrorCode.GENERIC, "Current track is not included in play queue");
             return;
         }
 
-        SavedPlayQueue playQueue = new SavedPlayQueue(null, username, mediaFileIds, current, position, changed, changedBy);
+        SavedPlayQueue playQueue = new SavedPlayQueue(null, username, mediaFileIds, current, position, changed, changedBy, transcoderNum);
         playQueueDao.savePlayQueue(playQueue);
         writeEmptyResponse(request, response);
     }
@@ -1821,6 +1888,8 @@ public class SubsonicRESTController {
         String username = securityService.getCurrentUsername(request);
         org.airsonic.player.domain.User user = securityService.getCurrentUser(request);
         List<org.airsonic.player.domain.MusicFolder> musicFolders = settingsService.getMusicFoldersForUser(username);
+        // TODO TIAGO: transcoderNum for transacoder
+        int transcoderNum = 0;
 
         Shares result = new Shares();
         for (org.airsonic.player.domain.Share share : shareService.getSharesForUser(user)) {
@@ -1828,7 +1897,7 @@ public class SubsonicRESTController {
             result.getShare().add(s);
 
             for (MediaFile mediaFile : shareService.getSharedFiles(share.getId(), musicFolders)) {
-                s.getEntry().add(createJaxbChild(player, mediaFile, username));
+                s.getEntry().add(createJaxbChild(player, mediaFile, username, transcoderNum));
             }
         }
         Response res = createResponse();
@@ -1841,6 +1910,8 @@ public class SubsonicRESTController {
         request = wrapRequest(request);
         Player player = playerService.getPlayer(request, response);
         String username = securityService.getCurrentUsername(request);
+        // TODO TIAGO: transcoderNum for transacoder
+        int transcoderNum = 0;
 
         org.airsonic.player.domain.User user = securityService.getCurrentUser(request);
         if (!user.isShareRole()) {
@@ -1868,7 +1939,7 @@ public class SubsonicRESTController {
         List<org.airsonic.player.domain.MusicFolder> musicFolders = settingsService.getMusicFoldersForUser(username);
 
         for (MediaFile mediaFile : shareService.getSharedFiles(share.getId(), musicFolders)) {
-            s.getEntry().add(createJaxbChild(player, mediaFile, username));
+            s.getEntry().add(createJaxbChild(player, mediaFile, username, transcoderNum));
         }
 
         Response res = createResponse();

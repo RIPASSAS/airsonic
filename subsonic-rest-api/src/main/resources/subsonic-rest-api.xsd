@@ -236,6 +236,8 @@
         <xs:attribute name="suffix" type="xs:string" use="optional"/>
         <xs:attribute name="transcodedContentType" type="xs:string" use="optional"/>
         <xs:attribute name="transcodedSuffix" type="xs:string" use="optional"/>
+        <xs:attribute name="applicableTranscodings" type="xs:string" use="optional"/> <!-- Added by TIAGO MARTINS -->
+        <xs:attribute name="transcoderNum" type="xs:int" use="optional"/> <!-- Added by TIAGO MARTINS -->
         <xs:attribute name="duration" type="xs:int" use="optional"/>
         <xs:attribute name="bitRate" type="xs:int" use="optional"/>
         <xs:attribute name="path" type="xs:string" use="optional"/>

@@ -63,6 +63,8 @@ public abstract class CustomContentDirectory extends AbstractContentDirectorySer
 
     protected Res createResourceForSong(MediaFile song) {
         Player player = playerService.getGuestPlayer(null);
+        // TODO TIAGO: transcoderNum for transacoder
+        int transcoderNum = 0;
 
         UriComponentsBuilder builder = UriComponentsBuilder.fromHttpUrl(getBaseUrl() + "/ext/stream")
                 .queryParam("id", song.getId())
@@ -76,7 +78,7 @@ public abstract class CustomContentDirectory extends AbstractContentDirectorySer
 
         String url = builder.toUriString();
 
-        String suffix = song.isVideo() ? FilenameUtils.getExtension(song.getPath()) : transcodingService.getSuffix(player, song, null);
+        String suffix = song.isVideo() ? FilenameUtils.getExtension(song.getPath()) : transcodingService.getSuffix(player, song, null, transcoderNum);
         String mimeTypeString = StringUtil.getMimeType(suffix);
         MimeType mimeType = mimeTypeString == null ? null : MimeType.valueOf(mimeTypeString);
 

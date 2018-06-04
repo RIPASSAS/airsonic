@@ -90,6 +90,8 @@ public class StreamController  {
         PlayQueueInputStream in = null;
         Player player = playerService.getPlayer(request, response, false, true);
         User user = securityService.getUserByName(player.getUsername());
+        // TODO TIAGO: transcoderNum for transacoder
+        int transcoderNum = 0;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
         try {
@@ -144,6 +146,11 @@ public class StreamController  {
                 // multiple streams, so the current play queue is the real one.
                 int currentIndex = player.getPlayQueue().getFiles().indexOf(file);
                 player.getPlayQueue().setIndex(currentIndex);
+                // TODO TIAGO: transcoderNum for transacoder
+                System.out.println("Inside StreamController before");
+                transcoderNum = 0;
+                System.out.println(request.getParameter("transcoderNum"));
+                System.out.println("Inside StreamController after");
 
                 // Create a new, fake play queue that only contains the
                 // currently playing media file, in case multiple streams want
@@ -157,7 +164,7 @@ public class StreamController  {
                     response.setHeader("Accept-Ranges", "bytes");
                 }
 
-                TranscodingService.Parameters parameters = transcodingService.getParameters(file, player, maxBitRate, preferredTargetFormat, null);
+                TranscodingService.Parameters parameters = transcodingService.getParameters(file, player, maxBitRate, preferredTargetFormat, null, transcoderNum);
                 long fileLength = getFileLength(parameters);
                 boolean isConversion = parameters.isDownsample() || parameters.isTranscode();
                 boolean estimateContentLength = ServletRequestUtils.getBooleanParameter(request, "estimateContentLength", false);
@@ -177,7 +184,7 @@ public class StreamController  {
                 if (isHls) {
                     response.setContentType(StringUtil.getMimeType("ts")); // HLS is always MPEG TS.
                 } else {
-                    String transcodedSuffix = transcodingService.getSuffix(player, file, preferredTargetFormat);
+                    String transcodedSuffix = transcodingService.getSuffix(player, file, preferredTargetFormat, transcoderNum);
                     boolean sonos = SonosHelper.AIRSONIC_CLIENT_ID.equals(player.getClientId());
                     response.setContentType(StringUtil.getMimeType(transcodedSuffix, sonos));
                     setContentDuration(response, file);
