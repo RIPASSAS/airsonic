@@ -149,7 +149,7 @@ public class StreamController  {
                 // TODO TIAGO: transcoderNum for transacoder
                 System.out.println("Inside StreamController before");
                 // TODO TIAGO: try catch here maybe, webplayer is broken and possibly other players
-                if(!request.getParameter("transcoderNum").equals(null)){
+                if(request.getParameter("transcoderNum") != null){
                     transcoderNum = Integer.parseInt(request.getParameter("transcoderNum"));
                     System.out.println("Not null: "+request.getParameter("transcoderNum"));
                 }
