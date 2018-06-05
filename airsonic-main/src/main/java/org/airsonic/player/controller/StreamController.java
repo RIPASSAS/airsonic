@@ -148,9 +148,12 @@ public class StreamController  {
                 player.getPlayQueue().setIndex(currentIndex);
                 // TODO TIAGO: transcoderNum for transacoder
                 System.out.println("Inside StreamController before");
-                transcoderNum = 0;
-                System.out.println(request.getParameter("transcoderNum"));
-                System.out.println("Inside StreamController after");
+                // TODO TIAGO: try catch here maybe, webplayer is broken and possibly other players
+                if(!request.getParameter("transcoderNum").equals(null)){
+                    transcoderNum = Integer.parseInt(request.getParameter("transcoderNum"));
+                    System.out.println("Not null: "+request.getParameter("transcoderNum"));
+                }
+
 
                 // Create a new, fake play queue that only contains the
                 // currently playing media file, in case multiple streams want
@@ -211,7 +214,7 @@ public class StreamController  {
             status = statusService.createStreamStatus(player);
 
             in = new PlayQueueInputStream(player, status, maxBitRate, preferredTargetFormat, videoTranscodingSettings, transcodingService,
-                    audioScrobblerService, mediaFileService, searchService);
+                    audioScrobblerService, mediaFileService, searchService, transcoderNum);
             OutputStream out = RangeOutputStream.wrap(response.getOutputStream(), range);
 
             // Enabled SHOUTcast, if requested.

@@ -226,7 +226,7 @@ public class TranscodingService {
                 parameters.setDownsample(true);
             }
         }
-
+        System.out.println("Chosen transcoder: "+parameters.transcoding.getId());
         parameters.setMaxBitRate(maxBitRate);
         return parameters;
     }
@@ -403,7 +403,7 @@ public class TranscodingService {
      * transcoding should be done.
      */
     private Transcoding getTranscoding(MediaFile mediaFile, Player player, String preferredTargetFormat, boolean hls, int transcoderNum) {
-
+        int index = 0;
         if (hls) {
             return new Transcoding(null, "hls", mediaFile.getFormat(), "ts", settingsService.getHlsCommand(), null, null, true);
         }
@@ -444,21 +444,31 @@ public class TranscodingService {
 
         List<Transcoding> applicableTranscodingsPreferred = new LinkedList<Transcoding>();
         for (Transcoding transcoding : applicableTranscodings) {
-            if (transcoding.getTargetFormat().equalsIgnoreCase(preferredTargetFormat)) {
                 applicableTranscodingsPreferred.add(transcoding);
-            }
         }
 
-        if (applicableTranscodingsPreferred.size()>0){
+        for (Transcoding t : applicableTranscodingsPreferred){
+            if (t.getId()==transcoderNum){
+                break;
+            }
+            index++;
+        }
+
+
+
+        if (applicableTranscodingsPreferred.size()>0 && index<applicableTranscodingsPreferred.size()){
+            System.out.println("transcoderNum inside getTranscoding function: "+transcoderNum);
+            System.out.println("applicableTranscodingsPreferred.get(index).getId() inside getTranscoding function: "+applicableTranscodingsPreferred.get(index).getId());
             // Uses random number to select transcoder
-            return applicableTranscodingsPreferred.get(transcoderNum);
+            return applicableTranscodingsPreferred.get(index);
+
         }
 
         // nextInt is normally exclusive of the top value,
         // so add 1 to make it inclusive
         //int transcoderNum = ThreadLocalRandom.current().nextInt(0, applicableTranscodings.size());
         // Uses random number to select transcoder
-        return applicableTranscodings.get(transcoderNum);
+        return applicableTranscodings.get(0);
     }
 
     /**

@@ -46,6 +46,7 @@ public class PlayQueueInputStream extends InputStream {
     private final TransferStatus status;
     private final Integer maxBitRate;
     private final String preferredTargetFormat;
+    private final Integer transcoderNum;
     private final VideoTranscodingSettings videoTranscodingSettings;
     private final TranscodingService transcodingService;
     private final AudioScrobblerService audioScrobblerService;
@@ -56,7 +57,7 @@ public class PlayQueueInputStream extends InputStream {
 
     public PlayQueueInputStream(Player player, TransferStatus status, Integer maxBitRate, String preferredTargetFormat,
                                 VideoTranscodingSettings videoTranscodingSettings, TranscodingService transcodingService,
-                                AudioScrobblerService audioScrobblerService, MediaFileService mediaFileService, SearchService searchService) {
+                                AudioScrobblerService audioScrobblerService, MediaFileService mediaFileService, SearchService searchService, Integer transcoderNum) {
         this.player = player;
         this.status = status;
         this.maxBitRate = maxBitRate;
@@ -66,6 +67,7 @@ public class PlayQueueInputStream extends InputStream {
         this.audioScrobblerService = audioScrobblerService;
         this.mediaFileService = mediaFileService;
         this.searchService = searchService;
+        this.transcoderNum = transcoderNum;
     }
 
     @Override
@@ -103,7 +105,6 @@ public class PlayQueueInputStream extends InputStream {
     private void prepare() throws IOException {
         PlayQueue playQueue = player.getPlayQueue();
         // TODO TIAGO: transcoderNum for transacoder
-        int transcoderNum = 0;
 
         // If playlist is in auto-random mode, populate it with new random songs.
         if (playQueue.getIndex() == -1 && playQueue.getRandomSearchCriteria() != null) {
