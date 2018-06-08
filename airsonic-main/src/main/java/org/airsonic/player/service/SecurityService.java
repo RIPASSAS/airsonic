@@ -155,6 +155,7 @@ public class SecurityService implements UserDetailsService {
         return userDao.getAllUsers();
     }
 
+
     /**
      * Returns whether the given user has administrative rights.
      */

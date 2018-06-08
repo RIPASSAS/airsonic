@@ -30,19 +30,15 @@ public class Rating_MyMusicQoE {
     private int numberOfPlaylist;
     private int idUser_MyMusicQoE;
     private int idMediaFile;
-    private String transcodedContentType;
-    private String transcodedSuffix;
-    private int transcodedBitrate;
+    private int idTranscoding;
     private int rating;
 
-    public Rating_MyMusicQoE(int id, int numberOfPlaylist, int idUser_MyMusicQoE, int idMediaFile, String transcodedContentType, String transcodedSuffix, int transcodedBitrate, int rating) {
+    public Rating_MyMusicQoE(int id, int numberOfPlaylist, int idUser_MyMusicQoE, int idMediaFile, int idTranscoding, int rating) {
         this.id = id;
         this.numberOfPlaylist = numberOfPlaylist;
         this.idUser_MyMusicQoE = idUser_MyMusicQoE;
         this.idMediaFile = idMediaFile;
-        this.transcodedContentType = transcodedContentType;
-        this.transcodedSuffix = transcodedSuffix;
-        this.transcodedBitrate = transcodedBitrate;
+        this.idTranscoding = idTranscoding;
         this.rating = rating;
     }
 
@@ -74,28 +70,12 @@ public class Rating_MyMusicQoE {
         this.idMediaFile = idMediaFile;
     }
 
-    public String getTranscodedContentType() {
-        return transcodedContentType;
+    public int getIdTranscoding() {
+        return idTranscoding;
     }
 
-    public void setTranscodedContentType(String transcodedContentType) {
-        this.transcodedContentType = transcodedContentType;
-    }
-
-    public String getTranscodedSuffix() {
-        return transcodedSuffix;
-    }
-
-    public void setTranscodedSuffix(String transcodedSuffix) {
-        this.transcodedSuffix = transcodedSuffix;
-    }
-
-    public int getTranscodedBitrate() {
-        return transcodedBitrate;
-    }
-
-    public void setTranscodedBitrate(int transcodedBitrate) {
-        this.transcodedBitrate = transcodedBitrate;
+    public void setIdTranscoding(int idTranscoding) {
+        this.idTranscoding = idTranscoding;
     }
 
     public int getRating() {

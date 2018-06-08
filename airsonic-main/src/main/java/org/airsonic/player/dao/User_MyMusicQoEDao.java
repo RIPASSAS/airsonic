@@ -98,12 +98,12 @@ public class User_MyMusicQoEDao extends AbstractDao {
     }
 
     /**
-     * Updates the given transcoding.
+     * Updates the given user.
      *
-     * @param user The transcoding to update.
+     * @param user The user to update.
      */
     public void updateUser_MyMusicQoE(User_MyMusicQoE user) {
-        String sql = "update user_mymusicqoe set age=?, =?, gender=?, " +
+        String sql = "update user_mymusicqoe set age=?, gender=?, " +
                 "genres=? where id=?";
         update(sql, user.getGender(), user.getAge(),
                 user.getGenres(), user.getId());

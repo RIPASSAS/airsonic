@@ -104,7 +104,7 @@ public class PlayQueueInputStream extends InputStream {
 
     private void prepare() throws IOException {
         PlayQueue playQueue = player.getPlayQueue();
-        // TODO TIAGO: transcoderNum for transacoder
+        // DONE TIAGO: transcoderNum for transacoder
 
         // If playlist is in auto-random mode, populate it with new random songs.
         if (playQueue.getIndex() == -1 && playQueue.getRandomSearchCriteria() != null) {

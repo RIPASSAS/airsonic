@@ -284,24 +284,6 @@
 <fmt:message key="more.podcast.text"/>
 
 
-
-<!-- ################################ Export results to .csv ################################-->
-<c:if test="${model.user.adminRole}">
-
-    <h2>
-        <img src="<spring:theme code="downloadImage"/>" alt=""/>
-        <span style="vertical-align: middle">Download QoE entries</span>
-    </h2>
-
-    <form name="csv_form" method="post" action="qoeEntries.jsp">
-    			<input type="submit" value="Download"></input>
-    </form>
-
-
-</c:if>
-<!-- ################################ Export results to .csv ################################-->
-
-
 <c:if test="${model.user.uploadRole}">
 
     <h2>
