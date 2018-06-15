@@ -121,6 +121,7 @@ public class Rating_MyMusicQoEDao extends AbstractDao {
     public void updateRating_MyMusicQoE(Rating_MyMusicQoE rating) {
         String sql = "update rating_mymusicqoe set rating=? where numberofplaylist=? and iduser_mymusicqoe=?";
         update(sql, rating.getRating(), rating.getNumberOfPlaylist(), rating.getIdUser_MyMusicQoE());
+        LOG.info("Updated rating_mymusicqoe with CombinedID ("+ rating.getNumberOfPlaylist() +"," + rating.getIdUser_MyMusicQoE() + ")");
     }
 
     private static class Rating_MyMusicQoERowMapper implements RowMapper<Rating_MyMusicQoE> {

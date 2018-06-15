@@ -85,6 +85,15 @@ public class MyMusicQoEService {
         ratingDao.createRating_MyMusicQoE(rating);
     }
 
+    /**
+     * Updates the given rating.
+     *
+     * @param rating The user to update.
+     */
+    public void updateRating_MyMusicQoe(Rating_MyMusicQoE rating) {
+        ratingDao.updateRating_MyMusicQoE(rating);
+    }
+
     /*
 
     /**

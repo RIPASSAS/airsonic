@@ -75,4 +75,9 @@ public class MyMusicQoEController {
         mymusicqoeService.createRating_MyMusicQoe(rating);
     }
 
+    public void updateRating_MyMusicQoE(Rating_MyMusicQoECommand command){
+        Rating_MyMusicQoE rating = new Rating_MyMusicQoE(command.getNumberOfPlaylist(), command.getIdUser_MyMusicQoE(), command.getIdMediaFile(), command.getIdTranscoding(), command.getRating());
+        mymusicqoeService.updateRating_MyMusicQoe(rating);
+    }
+
 }

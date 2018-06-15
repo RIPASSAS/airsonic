@@ -2222,7 +2222,7 @@ public class SubsonicRESTController {
 
     }
 
-    // DONE TIAGO: Create user_mymusicqoe
+    // DONE TIAGO: Create rating_mymusicqoe
     @RequestMapping(value = "/createRatingQoE")
     public void createRating_MyMusicQoE(HttpServletRequest request, HttpServletResponse response) throws Exception {
         request = wrapRequest(request);
@@ -2235,6 +2235,22 @@ public class SubsonicRESTController {
         command.setRating(getRequiredIntParameter(request, "rating"));
 
         myMusicQoEController.createRating_MyMusicQoE(command);
+        writeEmptyResponse(request, response);
+    }
+
+    // TODO TIAGO: Update rating_mymusicqoe
+    @RequestMapping(value = "/updateRatingQoE")
+    public void updateRating_MyMusicQoE(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        request = wrapRequest(request);
+
+        Rating_MyMusicQoECommand command = new Rating_MyMusicQoECommand();
+        command.setNumberOfPlaylist(getRequiredIntParameter(request, "numberOfPlaylist"));
+        command.setIdUser_MyMusicQoE(getRequiredIntParameter(request, "idUser_MyMusicQoE"));
+        command.setIdMediaFile(0); // Doesn't matter
+        command.setIdTranscoding(0); // Doesn't matter
+        command.setRating(getRequiredIntParameter(request, "rating"));
+
+        myMusicQoEController.updateRating_MyMusicQoE(command);
         writeEmptyResponse(request, response);
     }
 
