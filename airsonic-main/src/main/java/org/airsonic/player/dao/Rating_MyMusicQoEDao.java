@@ -39,7 +39,7 @@ import java.util.List;
 public class Rating_MyMusicQoEDao extends AbstractDao {
 
     private static final Logger LOG = LoggerFactory.getLogger(Rating_MyMusicQoEDao.class);
-    private static final String INSERT_COLUMNS = "id, numberofplaylist, iduser_mymusicqoe, idmediafile, idtranscoding, rating";
+    private static final String INSERT_COLUMNS = "numberofplaylist, iduser_mymusicqoe, idmediafile, idtranscoding, rating";
     private static final String QUERY_COLUMNS = INSERT_COLUMNS;
     private Rating_MyMusicQoERowMapper rowMapper = new Rating_MyMusicQoERowMapper();
 
@@ -97,19 +97,20 @@ public class Rating_MyMusicQoEDao extends AbstractDao {
     @Transactional
     public void createRating_MyMusicQoE(Rating_MyMusicQoE rating) {
         String sql = "insert into rating_mymusicqoe (" + QUERY_COLUMNS + ") values (" + questionMarks(QUERY_COLUMNS) + ")";
-        update(sql, rating.getId(), rating.getNumberOfPlaylist(), rating.getIdUser_MyMusicQoE(), rating.getIdMediaFile(), rating.getIdTranscoding(), rating.getRating());
-        LOG.info("Created rating_mymusicqoe " + rating.getId());
+        update(sql, rating.getNumberOfPlaylist(), rating.getIdUser_MyMusicQoE(), rating.getIdMediaFile(), rating.getIdTranscoding(), rating.getRating());
+        LOG.info("Created rating_mymusicqoe with CombinedID ("+ rating.getNumberOfPlaylist() +"," + rating.getIdUser_MyMusicQoE() + ")");
     }
 
     /**
-     * Deletes the rating with the given ID.
+     * Deletes the rating with the given params.
      *
-     * @param id The rating ID.
+     * @param numberOfPlaylist The rating numberOfPlaylist.
+     * @param idUser_MyMusicQoE The rating user ID.
      */
-    public void deleteRating_MyMusicQoE(Integer id) {
-        String sql = "delete from rating_mymusicqoe where id=?";
-        update(sql, id);
-        LOG.info("Deleted rating_mymusicqoe with ID " + id);
+    public void deleteRating_MyMusicQoE(int numberOfPlaylist, int idUser_MyMusicQoE) {
+        String sql = "delete from rating_mymusicqoe where numberofplaylist=? and iduser_mymusicqoe=?";
+        update(sql, numberOfPlaylist, idUser_MyMusicQoE);
+        LOG.info("Deleted rating_mymusicqoe with CombinedID ("+ numberOfPlaylist +"," + idUser_MyMusicQoE + ")");
     }
 
     /**
@@ -118,14 +119,13 @@ public class Rating_MyMusicQoEDao extends AbstractDao {
      * @param rating The rating to update.
      */
     public void updateRating_MyMusicQoE(Rating_MyMusicQoE rating) {
-        String sql = "update rating_mymusicqoe set numberofplaylist=?, iduser_mymusicqoe=?, idmediafile=?, " +
-                "idtranscoding=?, rating=? where id=?";
-        update(sql, rating.getNumberOfPlaylist(), rating.getIdUser_MyMusicQoE(), rating.getIdMediaFile(), rating.getIdTranscoding(), rating.getRating(), rating.getId());
+        String sql = "update rating_mymusicqoe set rating=? where numberofplaylist=? and iduser_mymusicqoe=?";
+        update(sql, rating.getRating(), rating.getNumberOfPlaylist(), rating.getIdUser_MyMusicQoE());
     }
 
     private static class Rating_MyMusicQoERowMapper implements RowMapper<Rating_MyMusicQoE> {
         public Rating_MyMusicQoE mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Rating_MyMusicQoE(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5), rs.getInt(6));
+            return new Rating_MyMusicQoE(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getInt(4), rs.getInt(5));
         }
     }
 }

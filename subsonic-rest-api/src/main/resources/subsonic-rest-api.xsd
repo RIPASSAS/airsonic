@@ -31,6 +31,7 @@
             <xs:element name="license" type="sub:License" minOccurs="1" maxOccurs="1"/>
             <xs:element name="users" type="sub:Users" minOccurs="1" maxOccurs="1"/>
             <xs:element name="user" type="sub:User" minOccurs="1" maxOccurs="1"/>
+            <xs:element name="lastIdUser" minOccurs="1" maxOccurs="1"/>
             <xs:element name="chatMessages" type="sub:ChatMessages" minOccurs="1" maxOccurs="1"/>
             <xs:element name="albumList" type="sub:AlbumList" minOccurs="1" maxOccurs="1"/>
             <xs:element name="albumList2" type="sub:AlbumList2" minOccurs="1" maxOccurs="1"/>
@@ -269,6 +270,11 @@
         <xs:restriction base="xs:int">
             <xs:minInclusive value="1"/>
             <xs:maxInclusive value="5"/>
+        </xs:restriction>
+    </xs:simpleType>
+
+    <xs:simpleType name="lastIdUser">
+        <xs:restriction base="xs:int">
         </xs:restriction>
     </xs:simpleType>
 

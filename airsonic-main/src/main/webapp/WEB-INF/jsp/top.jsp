@@ -73,6 +73,7 @@
 <fmt:message key="left.playlists" var="playlists"/>
 <fmt:message key="top.settings" var="settings"/>
 <fmt:message key="top.status" var="status" />
+<fmt:message key="top.qoeStats" var="qoeStats" />
 <fmt:message key="top.podcast" var="podcast"/>
 <fmt:message key="top.more" var="more"/>
 <fmt:message key="top.help" var="help"/>
@@ -110,6 +111,10 @@
                 <div class="topHeader"><a href="settings.view?" target="main">${settings}</a></div>
             </td>
         </c:if>
+        <td style="min-width:3em;padding-right:1em;text-align: center">
+            <a href="qoeEntries.view?" target="main"><img src="<spring:theme code="statusImage"/>" title="${qoeStats}" alt="${qoeStats}"></a>
+            <div class="topHeader"><a href="qoeEntries.view?" target="main">${qoeStats}</a></div>
+        </td>
         <td style="min-width:3em;padding-right:1em;text-align: center">
             <a href="status.view?" target="main"><img src="<spring:theme code="statusImage"/>" title="${status}" alt="${status}"></a>
             <div class="topHeader"><a href="status.view?" target="main">${status}</a></div>

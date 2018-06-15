@@ -19,6 +19,8 @@
  */
 package org.airsonic.player.controller;
 
+import org.airsonic.player.command.Rating_MyMusicQoECommand;
+import org.airsonic.player.command.User_MyMusicQoECommand;
 import org.airsonic.player.domain.Rating_MyMusicQoE;
 import org.airsonic.player.domain.User_MyMusicQoE;
 import org.airsonic.player.service.MyMusicQoEService;
@@ -57,6 +59,20 @@ public class MyMusicQoEController {
         map.put("musicqoeRatings", musicqoeRatings);
 
         return new ModelAndView("qoeEntries","model",map);
+    }
+
+    public void createUser_MyMusicQoe(User_MyMusicQoECommand command) {
+        User_MyMusicQoE user = new User_MyMusicQoE(command.getId(), command.getGender(), command.getAge(), command.getGenres());
+        mymusicqoeService.createUser_MyMusicQoe(user);
+    }
+
+    public int getLastIdUser_MyMusicQoE(){
+        return mymusicqoeService.getLastIdUser_MyMusicQoE();
+    }
+
+    public void createRating_MyMusicQoE(Rating_MyMusicQoECommand command){
+        Rating_MyMusicQoE rating = new Rating_MyMusicQoE(command.getNumberOfPlaylist(), command.getIdUser_MyMusicQoE(), command.getIdMediaFile(), command.getIdTranscoding(), command.getRating());
+        mymusicqoeService.createRating_MyMusicQoe(rating);
     }
 
 }

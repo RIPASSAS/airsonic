@@ -22,7 +22,9 @@ package org.airsonic.player.controller;
 import org.airsonic.player.ajax.LyricsInfo;
 import org.airsonic.player.ajax.LyricsService;
 import org.airsonic.player.ajax.PlayQueueService;
+import org.airsonic.player.command.Rating_MyMusicQoECommand;
 import org.airsonic.player.command.UserSettingsCommand;
+import org.airsonic.player.command.User_MyMusicQoECommand;
 import org.airsonic.player.dao.AlbumDao;
 import org.airsonic.player.dao.ArtistDao;
 import org.airsonic.player.dao.MediaFileDao;
@@ -97,6 +99,8 @@ public class SubsonicRESTController {
     private AvatarController avatarController;
     @Autowired
     private UserSettingsController userSettingsController;
+    @Autowired
+    private MyMusicQoEController myMusicQoEController;
     @Autowired
     private LeftController leftController;
     @Autowired
@@ -2190,6 +2194,50 @@ public class SubsonicRESTController {
         writeEmptyResponse(request, response);
     }
 
+    // DONE TIAGO: Create user_mymusicqoe
+    @RequestMapping(value = "/createUserQoE")
+    public void createUser_MyMusicQoE(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        request = wrapRequest(request);
+
+        User_MyMusicQoECommand command = new User_MyMusicQoECommand();
+        command.setId(getRequiredIntParameter(request, "id"));
+        command.setAge(getRequiredIntParameter(request, "age"));
+        command.setGender(getRequiredStringParameter(request, "gender"));
+        command.setGenres(getRequiredStringParameter(request, "genres"));
+
+        myMusicQoEController.createUser_MyMusicQoe(command);
+        writeEmptyResponse(request, response);
+    }
+
+    // DONE TIAGO: get last id user_mymusicqoe
+    @RequestMapping(value = "/getLastIdUserQoE")
+    public void getLastIdUser_MyMusicQoE(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        request = wrapRequest(request);
+
+        int result = myMusicQoEController.getLastIdUser_MyMusicQoE();
+
+        Response res = createResponse();
+        res.setLastIdUser(result);
+        this.jaxbWriter.writeResponse(request, response, res);
+
+    }
+
+    // DONE TIAGO: Create user_mymusicqoe
+    @RequestMapping(value = "/createRatingQoE")
+    public void createRating_MyMusicQoE(HttpServletRequest request, HttpServletResponse response) throws Exception {
+        request = wrapRequest(request);
+
+        Rating_MyMusicQoECommand command = new Rating_MyMusicQoECommand();
+        command.setNumberOfPlaylist(getRequiredIntParameter(request, "numberOfPlaylist"));
+        command.setIdUser_MyMusicQoE(getRequiredIntParameter(request, "idUser_MyMusicQoE"));
+        command.setIdMediaFile(getRequiredIntParameter(request, "idMediaFile"));
+        command.setIdTranscoding(getRequiredIntParameter(request, "idTranscoding"));
+        command.setRating(getRequiredIntParameter(request, "rating"));
+
+        myMusicQoEController.createRating_MyMusicQoE(command);
+        writeEmptyResponse(request, response);
+    }
+
     @RequestMapping(value = "/updateUser")
     public void updateUser(HttpServletRequest request, HttpServletResponse response) throws Exception {
         request = wrapRequest(request);
@@ -2367,6 +2415,7 @@ public class SubsonicRESTController {
         }
         return result;
     }
+
 
     @RequestMapping(value = "/getVideoInfo")
     public ResponseEntity<String> getVideoInfo() throws Exception {

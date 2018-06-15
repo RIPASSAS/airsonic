@@ -61,6 +61,30 @@ public class MyMusicQoEService {
         List<Rating_MyMusicQoE> result = ratingDao.getAllRatings();
         return result;
     }
+
+    /**
+     * Creates the given user.
+     *
+     * @param user The user to create.
+     */
+    public void createUser_MyMusicQoe(User_MyMusicQoE user) {
+        userDao.createUser_MyMusicQoE(user);
+    }
+
+    public int getLastIdUser_MyMusicQoE(){
+        return userDao.getLastUser();
+    }
+
+
+    /**
+     * Creates the given rating.
+     *
+     * @param rating The user to create.
+     */
+    public void createRating_MyMusicQoe(Rating_MyMusicQoE rating) {
+        ratingDao.createRating_MyMusicQoE(rating);
+    }
+
     /*
 
     /**

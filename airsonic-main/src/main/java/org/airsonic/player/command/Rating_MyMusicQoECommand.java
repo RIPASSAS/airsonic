@@ -17,28 +17,22 @@
  Copyright 2016 (C) Airsonic Authors
  Based upon Subsonic, Copyright 2009 (C) Sindre Mehus
  */
-package org.airsonic.player.domain;
+package org.airsonic.player.command;
+
+import org.airsonic.player.controller.MyMusicQoEController;
 
 /**
- * Represent a MyMusicQoE rating.
+ * Command used in {@link MyMusicQoEController}.
  *
- * @author Tiago Martins
+ * @author Sindre Mehus
  */
-public class Rating_MyMusicQoE {
-
+public class Rating_MyMusicQoECommand {
     private int numberOfPlaylist;
     private int idUser_MyMusicQoE;
     private int idMediaFile;
     private int idTranscoding;
     private int rating;
 
-    public Rating_MyMusicQoE(int numberOfPlaylist, int idUser_MyMusicQoE, int idMediaFile, int idTranscoding, int rating) {
-        this.numberOfPlaylist = numberOfPlaylist;
-        this.idUser_MyMusicQoE = idUser_MyMusicQoE;
-        this.idMediaFile = idMediaFile;
-        this.idTranscoding = idTranscoding;
-        this.rating = rating;
-    }
 
     public int getNumberOfPlaylist() {
         return numberOfPlaylist;

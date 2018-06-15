@@ -87,22 +87,22 @@
 
 <table width="100%" class="ruleTable indent">
     <tr>
-        <th class="ruleTableHeader"><fmt:message key="qoeEntries.entry_id"/></th>
+        <th class="ruleTableHeader"><fmt:message key="qoeEntries.entry_numberOfPlaylist"/></th>
         <th class="ruleTableHeader"><fmt:message key="qoeEntries.entry_idUser"/></th>
         <th class="ruleTableHeader"><fmt:message key="qoeEntries.entry_idMediaFile"/></th>
         <th class="ruleTableHeader"><fmt:message key="qoeEntries.entry_idTranscoding"/></th>
         <th class="ruleTableHeader"><fmt:message key="qoeEntries.entry_rating"/></th>
     </tr>
 
-    <c:set var="entries_csv" value="id,idUser,idMediaFile,idTranscoding,rating"/>
+    <c:set var="entries_csv" value="numberOfPlaylist,idUser,idMediaFile,idTranscoding,rating"/>
     <c:forEach items="${model.musicqoeRatings}" var="qoeEntry">
 
         <c:choose>
-            <c:when test="${empty qoeEntry.id}">
-                <fmt:message key="common.unknown" var="entryId"/>
+            <c:when test="${empty qoeEntry.numberOfPlaylist}">
+                <fmt:message key="common.unknown" var="entryNumberOfPlaylist"/>
             </c:when>
             <c:otherwise>
-                <c:set var="entryId" value="(${qoeEntry.id})"/>
+                <c:set var="entryNumberOfPlaylist" value="(${qoeEntry.numberOfPlaylist})"/>
             </c:otherwise>
         </c:choose>
 
@@ -143,13 +143,13 @@
         </c:choose>
 
         <tr>
-            <td class="ruleTableCell">${entryId}</td>
+            <td class="ruleTableCell">${entryNumberOfPlaylist}</td>
             <td class="ruleTableCell">${entryUserId}</td>
             <td class="ruleTableCell">${entryMediaFileId}</td>
             <td class="ruleTableCell">${entryTranscodingId}</td>
             <td class="ruleTableCell">${entryRating}</td>
         </tr>
-        <c:set var="entries_csv" value="${entries_csv}\n${entryId},${entryUserId},${entryMediaFileId},${entryTranscodingId},${entryRating}" />
+        <c:set var="entries_csv" value="${entries_csv}\n${entryNumberOfPlaylist},${entryUserId},${entryMediaFileId},${entryTranscodingId},${entryRating}" />
     </c:forEach>
 </table>
 
