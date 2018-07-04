@@ -73,6 +73,16 @@ public class TranscodingService {
     }
 
     /**
+     * Returns the transcoding for the given ID.
+     *
+     * @param id The ID.
+     * @return The trancoding or null.
+     */
+    public Transcoding getTranscoding(int id) {
+        return transcodingDao.getTranscoding(id);
+    }
+
+    /**
      * Returns all active transcodings for the given player. Only enabled transcodings are returned.
      *
      * @param player The player.

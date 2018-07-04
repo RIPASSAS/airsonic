@@ -21,9 +21,13 @@ package org.airsonic.player.controller;
 
 import org.airsonic.player.command.Rating_MyMusicQoECommand;
 import org.airsonic.player.command.User_MyMusicQoECommand;
+import org.airsonic.player.domain.MediaFile;
 import org.airsonic.player.domain.Rating_MyMusicQoE;
+import org.airsonic.player.domain.Transcoding;
 import org.airsonic.player.domain.User_MyMusicQoE;
+import org.airsonic.player.service.MediaFileService;
 import org.airsonic.player.service.MyMusicQoEService;
+import org.airsonic.player.service.TranscodingService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -46,6 +50,10 @@ public class MyMusicQoEController {
 
     @Autowired
     private MyMusicQoEService mymusicqoeService;
+    @Autowired
+    private MediaFileService mediaFileService;
+    @Autowired
+    private TranscodingService transcodingService;
 
     @RequestMapping(method = RequestMethod.GET)
     protected ModelAndView handleRequestInternal(HttpServletRequest request, HttpServletResponse response) throws Exception {
@@ -71,13 +79,27 @@ public class MyMusicQoEController {
     }
 
     public void createRating_MyMusicQoE(Rating_MyMusicQoECommand command){
-        Rating_MyMusicQoE rating = new Rating_MyMusicQoE(command.getNumberOfPlaylist(), command.getIdUser_MyMusicQoE(), command.getIdMediaFile(), command.getIdTranscoding(), command.getRating());
+        Rating_MyMusicQoE rating = new Rating_MyMusicQoE(command.getNumberOfPlaylist(), command.getIdUser_MyMusicQoE(), command.getIdMediaFile(), "", "", "", command.getIdTranscoding(), "", command.getRating());
+        MediaFile mf = mediaFileService.getMediaFile(rating.getIdMediaFile());
+        rating.setMfTitle(mf.getTitle());
+        rating.setMfArtist(mf.getArtist());
+        rating.setMfGenre(mf.getGenre());
+        Transcoding tc = transcodingService.getTranscoding(rating.getIdTranscoding());
+        rating.setTcName(tc.getName());
         mymusicqoeService.createRating_MyMusicQoe(rating);
     }
 
     public void updateRating_MyMusicQoE(Rating_MyMusicQoECommand command){
-        Rating_MyMusicQoE rating = new Rating_MyMusicQoE(command.getNumberOfPlaylist(), command.getIdUser_MyMusicQoE(), command.getIdMediaFile(), command.getIdTranscoding(), command.getRating());
+        Rating_MyMusicQoE rating = new Rating_MyMusicQoE(command.getNumberOfPlaylist(), command.getIdUser_MyMusicQoE(), command.getIdMediaFile(), "", "", "", command.getIdTranscoding(), "", command.getRating());
+        MediaFile mf = mediaFileService.getMediaFile(rating.getIdMediaFile());
+        rating.setMfTitle(mf.getTitle());
+        rating.setMfArtist(mf.getArtist());
+        rating.setMfGenre(mf.getGenre());
+        Transcoding tc = transcodingService.getTranscoding(rating.getIdTranscoding());
+        rating.setTcName(tc.getName());
         mymusicqoeService.updateRating_MyMusicQoe(rating);
     }
+
+
 
 }

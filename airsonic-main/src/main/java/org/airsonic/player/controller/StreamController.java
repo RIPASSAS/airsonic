@@ -90,7 +90,7 @@ public class StreamController  {
         PlayQueueInputStream in = null;
         Player player = playerService.getPlayer(request, response, false, true);
         User user = securityService.getUserByName(player.getUsername());
-        // TODO TIAGO: transcoderNum for transacoder
+        // DONE TIAGO: transcoderNum for transacoder
         int transcoderNum = 0;
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
 
@@ -146,14 +146,12 @@ public class StreamController  {
                 // multiple streams, so the current play queue is the real one.
                 int currentIndex = player.getPlayQueue().getFiles().indexOf(file);
                 player.getPlayQueue().setIndex(currentIndex);
-                // TODO TIAGO: transcoderNum for transacoder
-                System.out.println("Inside StreamController before");
                 // TODO TIAGO: try catch here maybe, webplayer is broken and possibly other players
-                if(request.getParameter("transcoderNum") != null){
+                if (request.getParameter("transcoderNum") != null){
                     transcoderNum = Integer.parseInt(request.getParameter("transcoderNum"));
-                    System.out.println("Not null: "+request.getParameter("transcoderNum"));
+                } else {
+                    transcoderNum = 0;
                 }
-
 
                 // Create a new, fake play queue that only contains the
                 // currently playing media file, in case multiple streams want

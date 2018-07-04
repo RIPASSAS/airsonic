@@ -54,6 +54,16 @@ public class TranscodingDao extends AbstractDao {
     }
 
     /**
+     * Returns the transcoding for the given ID.
+     *
+     * @param id The ID.
+     * @return The trancoding or null.
+     */
+    public Transcoding getTranscoding(int id) {
+        return queryOne("select " + QUERY_COLUMNS + " from transcoding2 where id=?", rowMapper, id);
+    }
+
+    /**
      * Returns all active transcodings for the given player.
      *
      * @param playerId The player ID.

@@ -30,7 +30,11 @@ public class Rating_MyMusicQoECommand {
     private int numberOfPlaylist;
     private int idUser_MyMusicQoE;
     private int idMediaFile;
+    private String mfTitle;
+    private String mfArtist;
+    private String mfGenre;
     private int idTranscoding;
+    private String tcName;
     private int rating;
 
 
@@ -58,12 +62,44 @@ public class Rating_MyMusicQoECommand {
         this.idMediaFile = idMediaFile;
     }
 
+    public String getMfTitle() {
+        return mfTitle;
+    }
+
+    public void setMfTitle(String mfTitle) {
+        this.mfTitle = mfTitle;
+    }
+
+    public String getMfArtist() {
+        return mfArtist;
+    }
+
+    public void setMfArtist(String mfArtist) {
+        this.mfArtist = mfArtist;
+    }
+
+    public String getMfGenre() {
+        return mfGenre;
+    }
+
+    public void setMfGenre(String mfGenre) {
+        this.mfGenre = mfGenre;
+    }
+
     public int getIdTranscoding() {
         return idTranscoding;
     }
 
     public void setIdTranscoding(int idTranscoding) {
         this.idTranscoding = idTranscoding;
+    }
+
+    public String getTcName() {
+        return tcName;
+    }
+
+    public void setTcName(String tcName) {
+        this.tcName = tcName;
     }
 
     public int getRating() {

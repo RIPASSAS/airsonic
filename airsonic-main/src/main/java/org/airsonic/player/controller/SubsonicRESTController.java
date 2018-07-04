@@ -2246,8 +2246,8 @@ public class SubsonicRESTController {
         Rating_MyMusicQoECommand command = new Rating_MyMusicQoECommand();
         command.setNumberOfPlaylist(getRequiredIntParameter(request, "numberOfPlaylist"));
         command.setIdUser_MyMusicQoE(getRequiredIntParameter(request, "idUser_MyMusicQoE"));
-        command.setIdMediaFile(0); // Doesn't matter
-        command.setIdTranscoding(0); // Doesn't matter
+        command.setIdMediaFile(getRequiredIntParameter(request, "idMediaFile"));
+        command.setIdTranscoding(getRequiredIntParameter(request, "idTranscoding")); // Doesn't matter
         command.setRating(getRequiredIntParameter(request, "rating"));
 
         myMusicQoEController.updateRating_MyMusicQoE(command);
