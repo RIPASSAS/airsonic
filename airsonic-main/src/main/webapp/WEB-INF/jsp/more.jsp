@@ -276,13 +276,13 @@
     <span style="vertical-align: middle"><fmt:message key="more.status.title"/></span>
 </h2>
 <fmt:message key="more.status.text"/>
-
+<!--
 <h2>
     <img src="<spring:theme code="podcastImage"/>" alt=""/>
     <span style="vertical-align: middle"><fmt:message key="more.podcast.title"/></span>
 </h2>
 <fmt:message key="more.podcast.text"/>
-
+-->
 
 <c:if test="${model.user.uploadRole}">
 

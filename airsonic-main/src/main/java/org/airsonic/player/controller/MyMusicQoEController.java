@@ -79,7 +79,7 @@ public class MyMusicQoEController {
     }
 
     public void createRating_MyMusicQoE(Rating_MyMusicQoECommand command){
-        Rating_MyMusicQoE rating = new Rating_MyMusicQoE(command.getNumberOfPlaylist(), command.getIdUser_MyMusicQoE(), command.getIdMediaFile(), "", "", "", command.getIdTranscoding(), "", command.getRating());
+        Rating_MyMusicQoE rating = new Rating_MyMusicQoE(command.getNumberOfPlaylist(), command.getIdUser_MyMusicQoE(), command.getIdMediaFile(), "", "", "", command.getIdTranscoding(), "", command.isHeadphones(),command.getRating(), "");
         MediaFile mf = mediaFileService.getMediaFile(rating.getIdMediaFile());
         rating.setMfTitle(mf.getTitle());
         rating.setMfArtist(mf.getArtist());
@@ -90,7 +90,7 @@ public class MyMusicQoEController {
     }
 
     public void updateRating_MyMusicQoE(Rating_MyMusicQoECommand command){
-        Rating_MyMusicQoE rating = new Rating_MyMusicQoE(command.getNumberOfPlaylist(), command.getIdUser_MyMusicQoE(), command.getIdMediaFile(), "", "", "", command.getIdTranscoding(), "", command.getRating());
+        Rating_MyMusicQoE rating = new Rating_MyMusicQoE(command.getNumberOfPlaylist(), command.getIdUser_MyMusicQoE(), command.getIdMediaFile(), "", "", "", command.getIdTranscoding(), "", command.isHeadphones(),command.getRating(), "");
         MediaFile mf = mediaFileService.getMediaFile(rating.getIdMediaFile());
         rating.setMfTitle(mf.getTitle());
         rating.setMfArtist(mf.getArtist());

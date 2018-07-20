@@ -35,9 +35,11 @@ public class Rating_MyMusicQoE {
     private String mfGenre;
     private int idTranscoding;
     private String tcName;
+    private boolean headphones;
     private int rating;
+    private String date;
 
-    public Rating_MyMusicQoE(int numberOfPlaylist, int idUser_MyMusicQoE, int idMediaFile, String mfTitle, String mfArtist, String mfGenre, int idTranscoding, String tcName, int rating) {
+    public Rating_MyMusicQoE(int numberOfPlaylist, int idUser_MyMusicQoE, int idMediaFile, String mfTitle, String mfArtist, String mfGenre, int idTranscoding, String tcName, boolean headphones, int rating, String date) {
         this.numberOfPlaylist = numberOfPlaylist;
         this.idUser_MyMusicQoE = idUser_MyMusicQoE;
         this.idMediaFile = idMediaFile;
@@ -46,7 +48,9 @@ public class Rating_MyMusicQoE {
         this.mfGenre = mfGenre;
         this.idTranscoding = idTranscoding;
         this.tcName = tcName;
+        this.headphones = headphones;
         this.rating = rating;
+        this.date = date;
     }
     
     public int getNumberOfPlaylist() {
@@ -113,11 +117,27 @@ public class Rating_MyMusicQoE {
         this.tcName = tcName;
     }
 
+    public boolean isHeadphones() {
+        return headphones;
+    }
+
+    public void setHeadphones(boolean headphones) {
+        this.headphones = headphones;
+    }
+
     public int getRating() {
         return rating;
     }
 
     public void setRating(int rating) {
         this.rating = rating;
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
     }
 }

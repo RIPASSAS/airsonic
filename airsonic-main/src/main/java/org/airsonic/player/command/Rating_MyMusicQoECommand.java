@@ -35,6 +35,7 @@ public class Rating_MyMusicQoECommand {
     private String mfGenre;
     private int idTranscoding;
     private String tcName;
+    private boolean headphones;
     private int rating;
 
 
@@ -100,6 +101,14 @@ public class Rating_MyMusicQoECommand {
 
     public void setTcName(String tcName) {
         this.tcName = tcName;
+    }
+
+    public boolean isHeadphones() {
+        return headphones;
+    }
+
+    public void setHeadphones(boolean headphones) {
+        this.headphones = headphones;
     }
 
     public int getRating() {

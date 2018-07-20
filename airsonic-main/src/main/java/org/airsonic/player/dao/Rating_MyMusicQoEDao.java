@@ -28,6 +28,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.text.SimpleDateFormat;
+import java.util.Calendar;
 import java.util.List;
 
 /**
@@ -39,7 +41,7 @@ import java.util.List;
 public class Rating_MyMusicQoEDao extends AbstractDao {
 
     private static final Logger LOG = LoggerFactory.getLogger(Rating_MyMusicQoEDao.class);
-    private static final String INSERT_COLUMNS = "numberofplaylist, iduser_mymusicqoe, idmediafile, mfTitle, mfArtist, mfGenre, idtranscoding, tcName, rating";
+    private static final String INSERT_COLUMNS = "numberofplaylist, iduser_mymusicqoe, idmediafile, mfTitle, mfArtist, mfGenre, idtranscoding, tcName, headphones, rating, date";
     private static final String QUERY_COLUMNS = INSERT_COLUMNS;
     private Rating_MyMusicQoERowMapper rowMapper = new Rating_MyMusicQoERowMapper();
 
@@ -96,8 +98,9 @@ public class Rating_MyMusicQoEDao extends AbstractDao {
      */
     @Transactional
     public void createRating_MyMusicQoE(Rating_MyMusicQoE rating) {
+        String date = new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime());
         String sql = "insert into rating_mymusicqoe (" + QUERY_COLUMNS + ") values (" + questionMarks(QUERY_COLUMNS) + ")";
-        update(sql, rating.getNumberOfPlaylist(), rating.getIdUser_MyMusicQoE(), rating.getIdMediaFile(), rating.getMfTitle(), rating.getMfArtist(), rating.getMfGenre(), rating.getIdTranscoding(), rating.getTcName(), rating.getRating());
+        update(sql, rating.getNumberOfPlaylist(), rating.getIdUser_MyMusicQoE(), rating.getIdMediaFile(), rating.getMfTitle(), rating.getMfArtist(), rating.getMfGenre(), rating.getIdTranscoding(), rating.getTcName(), rating.isHeadphones(),rating.getRating(), date);
         LOG.info("Created rating_mymusicqoe with CombinedID ("+ rating.getNumberOfPlaylist() +"," + rating.getIdUser_MyMusicQoE() + "," + rating.getIdMediaFile() +")");
     }
 
@@ -126,7 +129,7 @@ public class Rating_MyMusicQoEDao extends AbstractDao {
 
     private static class Rating_MyMusicQoERowMapper implements RowMapper<Rating_MyMusicQoE> {
         public Rating_MyMusicQoE mapRow(ResultSet rs, int rowNum) throws SQLException {
-            return new Rating_MyMusicQoE(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6),rs.getInt(7), rs.getString(8), rs.getInt(9));
+            return new Rating_MyMusicQoE(rs.getInt(1), rs.getInt(2), rs.getInt(3), rs.getString(4), rs.getString(5), rs.getString(6),rs.getInt(7), rs.getString(8), rs.getBoolean(9),rs.getInt(10), rs.getString(11));
         }
     }
 }

@@ -103,7 +103,7 @@
         </p>
     </c:forEach>
 </c:if>
-
+<!--
 <h2 class="bgcolor1" style="padding-left: 2px"><fmt:message key="left.playlists"/></h2>
 <div id="playlistWrapper" style='padding-left:2px'>
     <div id="playlists"></div>
@@ -113,7 +113,7 @@
     <div class="forward"><a href="javascript:noop()" onclick="createEmptyPlaylist()"><fmt:message key="left.createplaylist"/></a></div>
     <div class="forward"><a href="importPlaylist.view" target="main"><fmt:message key="left.importplaylist"/></a></div>
 </div>
-
+-->
 <c:if test="${not empty model.radios}">
     <h2 class="bgcolor1" style="padding-left: 2px"><fmt:message key="left.radio"/></h2>
     <c:forEach items="${model.radios}" var="radio">
