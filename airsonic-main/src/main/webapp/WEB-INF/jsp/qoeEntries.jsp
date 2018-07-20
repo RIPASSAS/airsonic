@@ -88,7 +88,7 @@
                             <fmt:message key="common.unknown" var="entryNumberOfPlaylist"/>
                         </c:when>
                         <c:otherwise>
-                            <c:set var="entryNumberOfPlaylist" value="(${qoeEntry.numberOfPlaylist})"/>
+                            <c:set var="entryNumberOfPlaylist" value="${qoeEntry.numberOfPlaylist}"/>
                         </c:otherwise>
                     </c:choose>
 
@@ -229,7 +229,7 @@
                             <fmt:message key="common.unknown" var="userId"/>
                         </c:when>
                         <c:otherwise>
-                            <c:set var="userId" value="(${qoeUser.id})"/>
+                            <c:set var="userId" value="${qoeUser.id}"/>
                         </c:otherwise>
                     </c:choose>
 
