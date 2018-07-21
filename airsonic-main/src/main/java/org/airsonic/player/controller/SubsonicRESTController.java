@@ -1350,8 +1350,7 @@ public class SubsonicRESTController {
                 default:
                     break;
             }
-            LOG.info("isTranscoderRequired: "+transcodingService.isTranscodingRequired(mediaFile, player,transcoderNum)); //Cheack why is null
-            if (true) {
+            if (transcodingService.isTranscodingRequired(mediaFile, player,transcoderNum)) {
                 String transcodedSuffix = transcodingService.getSuffix(player, mediaFile, null,transcoderNum);
                 child.setTranscodedSuffix(transcodedSuffix);
                 child.setTranscodedContentType(StringUtil.getMimeType(transcodedSuffix));
@@ -1364,7 +1363,7 @@ public class SubsonicRESTController {
                 for (Transcoding transcoding : playerTranscodings) {
                     for (String sourceFormat : transcoding.getSourceFormatsAsArray()) {
                         if (sourceFormat.equalsIgnoreCase(suffix)) {
-                            LOG.info("Applicable transcoding: "+transcoding.getId());
+                            //LOG.info("Applicable transcoding: "+transcoding.getId());
                             applicableTranscodings.append(transcoding.getId());
                             applicableTranscodings.append("/");
                         }

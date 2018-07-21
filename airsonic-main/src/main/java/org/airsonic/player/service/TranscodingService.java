@@ -413,7 +413,7 @@ public class TranscodingService {
      * transcoding should be done.
      */
     private Transcoding getTranscoding(MediaFile mediaFile, Player player, String preferredTargetFormat, boolean hls, int transcoderNum) {
-        int index = 0;
+
         if (hls) {
             return new Transcoding(null, "hls", mediaFile.getFormat(), "ts", settingsService.getHlsCommand(), null, null, true);
         }
@@ -434,14 +434,19 @@ public class TranscodingService {
 
         List<Transcoding> transcodingsForPlayer = getTranscodingsForPlayer(player);
         for (Transcoding transcoding : transcodingsForPlayer) {
+            //LOG.info("Transcoding id: "+transcoding.getId());
             // special case for now as video must have a transcoding
             if(mediaFile.isVideo() && StringUtils.equalsIgnoreCase(preferredTargetFormat, transcoding.getTargetFormat())) {
                 LOG.debug("Detected source to target format match for video");
                 return transcoding;
             }
             for (String sourceFormat : transcoding.getSourceFormatsAsArray()) {
+                //LOG.info("Sourveformat: "+ sourceFormat);
+                //LOG.info("Suffix: "+suffix);
                 if (sourceFormat.equalsIgnoreCase(suffix)) {
+                    //LOG.info("Suffix is equal to source format");
                     if (isTranscodingInstalled(transcoding)) {
+                        //LOG.info("Added transcoding");
                         applicableTranscodings.add(transcoding);
                     }
                 }
@@ -457,6 +462,7 @@ public class TranscodingService {
                 applicableTranscodingsPreferred.add(transcoding);
         }
 
+        int index = 0;
         for (Transcoding t : applicableTranscodingsPreferred){
             if (t.getId()==transcoderNum){
                 break;
