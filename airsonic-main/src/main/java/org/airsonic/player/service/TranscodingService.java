@@ -236,7 +236,7 @@ public class TranscodingService {
                 parameters.setDownsample(true);
             }
         }
-        System.out.println("Chosen transcoder: "+parameters.transcoding.getId());
+        //System.out.println("Chosen transcoder: "+parameters.transcoding.getId());
         parameters.setMaxBitRate(maxBitRate);
         return parameters;
     }
