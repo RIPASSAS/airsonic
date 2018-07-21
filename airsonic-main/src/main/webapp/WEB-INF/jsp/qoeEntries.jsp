@@ -207,7 +207,7 @@
 
         <br />
 
-        <button class="btn btn-primary downloadBtn" onclick="getCSV('${entries_csv}','entries')"><fmt:message key="qoeEntries.downloadEntries"/></button>
+        <button class="btn btn-primary downloadBtn" onclick="getCSV('<c:out value='${entries_csv}'/>','entries')"><fmt:message key="qoeEntries.downloadEntries"/></button>
 
         <br />
 
@@ -246,6 +246,24 @@
                         <c:when test="${empty qoeUser.age}">
                             <fmt:message key="common.unknown" var="userAge"/>
                         </c:when>
+                        <c:when test="${qoeUser.age==1}">
+                            <c:set var="userAge" value="-20"/>
+                        </c:when>
+                        <c:when test="${qoeUser.age==2}">
+                            <c:set var="userAge" value="20-30"/>
+                        </c:when>
+                        <c:when test="${qoeUser.age==3}">
+                            <c:set var="userAge" value="30-40"/>
+                        </c:when>
+                        <c:when test="${qoeUser.age==4}">
+                            <c:set var="userAge" value="40-50"/>
+                        </c:when>
+                        <c:when test="${qoeUser.age==5}">
+                            <c:set var="userAge" value="50-60"/>
+                        </c:when>
+                        <c:when test="${qoeUser.age==6}">
+                            <c:set var="userAge" value="60+"/>
+                        </c:when>
                         <c:otherwise>
                             <c:set var="userAge" value="${qoeUser.age}"/>
                         </c:otherwise>
@@ -273,7 +291,7 @@
 
         <br />
 
-        <button class="btn btn-primary downloadBtn" onclick="getCSV('${users_csv}','users')"><fmt:message key="qoeEntries.downloadUsers"/></button>
+        <button class="btn btn-primary downloadBtn" onclick="getCSV('<c:out value='${users_csv}'/>','users')"><fmt:message key="qoeEntries.downloadUsers"/></button>
 
 
     </div>

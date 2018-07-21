@@ -98,7 +98,7 @@ public class Rating_MyMusicQoEDao extends AbstractDao {
      */
     @Transactional
     public void createRating_MyMusicQoE(Rating_MyMusicQoE rating) {
-        String date = new SimpleDateFormat("dd/MM/yyyy").format(Calendar.getInstance().getTime());
+        String date = new SimpleDateFormat("dd/MM/yyyy HH:mm:ss").format(Calendar.getInstance().getTime());
         String sql = "insert into rating_mymusicqoe (" + QUERY_COLUMNS + ") values (" + questionMarks(QUERY_COLUMNS) + ")";
         update(sql, rating.getNumberOfPlaylist(), rating.getIdUser_MyMusicQoE(), rating.getIdMediaFile(), rating.getMfTitle(), rating.getMfArtist(), rating.getMfGenre(), rating.getIdTranscoding(), rating.getTcName(), rating.isHeadphones(),rating.getRating(), date);
         LOG.info("Created rating_mymusicqoe with CombinedID ("+ rating.getNumberOfPlaylist() +"," + rating.getIdUser_MyMusicQoE() + "," + rating.getIdMediaFile() +")");
