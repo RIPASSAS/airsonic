@@ -192,7 +192,7 @@
                         <td>${entryDate}</td>
                         <td>${entryRating}</td>
                     </tr>
-                    <c:set var="entries_csv" value="${entries_csv}\n${entryNumberOfPlaylist},${entryUserId},${entryMediaFileId},${entryMfTitle},${entryMfArtist},${entryMfGenre},${entryTranscodingId},${entryTcName},${entryHeadphones},${entryDate},${entryRating}" />
+                    <c:set var="entries_csv" value="${entries_csv}##${entryNumberOfPlaylist},${entryUserId},${entryMediaFileId},${entryMfTitle},${entryMfArtist},${entryMfGenre},${entryTranscodingId},${entryTcName},${entryHeadphones},${entryDate},${entryRating}" />
                     <c:set var="arr_entryUserId" value="${arr_entryUserId},${entryUserId};" />
                     <c:set var="arr_entryMfTitle" value="${arr_entryMfTitle},&quot;${entryMfTitle}&quot;" />
                     <c:set var="arr_entryMfArtist" value="${arr_entryMfArtist},&quot;${entryMfArtist}&quot;" />
@@ -207,7 +207,16 @@
 
         <br />
 
-        <button class="btn btn-primary downloadBtn" onclick="getCSV('<c:out value='${entries_csv}'/>','entries')"><fmt:message key="qoeEntries.downloadEntries"/></button>
+        <%@ page import="org.apache.commons.lang.StringEscapeUtils" %>
+        <%@ page import="java.io.*" %>
+
+        <%
+            String escaped_entries_csv = (String)pageContext.getAttribute("entries_csv");
+            escaped_entries_csv = StringEscapeUtils.escapeJavaScript(escaped_entries_csv);
+            escaped_entries_csv = escaped_entries_csv.replace("##","\\n");
+        %>
+
+        <button class="btn btn-primary downloadBtn" onclick="getCSV('<%= escaped_entries_csv %>','entries')"><fmt:message key="qoeEntries.downloadEntries"/></button>
 
         <br />
 
@@ -284,14 +293,20 @@
                         <td>${userAge}</td>
                         <td>${userGenres}</td>
                     </tr>
-                    <c:set var="users_csv" value="${users_csv}\n${userId},${userGender},${userAge},${userGenres}" />
+                    <c:set var="users_csv" value="${users_csv}##${userId},${userGender},${userAge},${userGenres}" />
                 </c:forEach>
             </tbody>
         </table>
 
         <br />
 
-        <button class="btn btn-primary downloadBtn" onclick="getCSV('<c:out value='${users_csv}'/>','users')"><fmt:message key="qoeEntries.downloadUsers"/></button>
+         <%
+            String escaped_users_csv = (String)pageContext.getAttribute("users_csv");
+            escaped_users_csv = StringEscapeUtils.escapeJavaScript(escaped_users_csv);
+            escaped_users_csv = escaped_users_csv.replace("##","\\n");
+        %>
+
+        <button class="btn btn-primary downloadBtn" onclick="getCSV('<%= escaped_users_csv %>','users')"><fmt:message key="qoeEntries.downloadUsers"/></button>
 
 
     </div>
@@ -318,7 +333,9 @@
 
     $(document).ready(function() {
         $('#userTable').DataTable();
-        $('#ratingTable').DataTable();
+        $('#ratingTable').DataTable( {
+            "order": [[ 6, "desc" ]]
+        } );
     } );
 
     // Then we'll use the int and convert to hex.
