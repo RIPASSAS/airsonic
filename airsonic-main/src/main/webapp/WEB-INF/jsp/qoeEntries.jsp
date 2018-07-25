@@ -198,9 +198,9 @@
                     <c:set var="arr_entryMfArtist" value="${arr_entryMfArtist},&quot;${entryMfArtist}&quot;" />
                     <c:set var="arr_entryMfGenre" value="${arr_entryMfGenre},&quot;${entryMfGenre}&quot;" />
                     <c:set var="arr_entryTcName" value="${arr_entryTcName},&quot;${entryTcName}&quot;" />
-                    <c:set var="arr_entryHeadphones" value="${arr_entryHeadphones},${entryHeadphones}" />
+                    <c:set var="arr_entryHeadphones" value="${arr_entryHeadphones},&quot;${entryHeadphones}&quot;" />
                     <c:set var="arr_entryRating" value="${arr_entryRating},${entryRating}" />
-                    <c:set var="arr_entryDate" value="${arr_entryDate},${entryDate}" />
+                    <c:set var="arr_entryDate" value="${arr_entryDate},&quot;${entryDate}&quot;" />
                 </c:forEach>
             </tbody>
         </table>
@@ -295,8 +295,8 @@
                     </tr>
                     <c:set var="users_csv" value="${users_csv}##${userId},${userGender},${userAge},${userGenres}" />
                     <c:set var="arr_userId" value="${arr_userId},${userId}" />
-                    <c:set var="arr_userGender" value="${arr_userGender},${userGender}" />
-                    <c:set var="arr_userAge" value="${arr_userAge},${userAge}" />
+                    <c:set var="arr_userGender" value="${arr_userGender},&quot;${userGender}&quot;" />
+                    <c:set var="arr_userAge" value="${arr_userAge},&quot;${userAge}&quot;" />
                     <c:set var="arr_userGenres" value="${arr_userGenres},${userGenres}" />
                 </c:forEach>
             </tbody>
@@ -318,24 +318,35 @@
     <div id="graphs" class="tab-pane fade" role="tabpanel" aria-labelledby="graphs-tab">
 
         <div class="nav flex-column nav-pills" id="v-graphs-tab" role="tablist" aria-orientation="vertical">
-          <a class="nav-link active" id="v-graphs-ratingPerTranscoder-tab" data-toggle="pill" href="#v-graphs-ratingPerTranscoder" role="tab" aria-controls="v-graphs-ratingPerTranscoder" aria-selected="true">Rating by Transcoder</a>
-          <a class="nav-link" id="v-graphs-ratingPerGenre-tab" data-toggle="pill" href="#v-graphs-ratingPerGenre" role="tab" aria-controls="v-graphs-ratingPerGenre" aria-selected="false">Rating by Genre</a>
-          <a class="nav-link" id="v-graphs-ratingPerTranscoderPerGenre-tab" data-toggle="pill" href="#v-graphs-ratingPerTranscoderPerGenre" role="tab" aria-controls="v-graphs-ratingPerTranscoderPerGenre" aria-selected="false">Rating by Transcoder by Genre</a>
-          <a class="nav-link" id="v-graphs-favoriteGenres-tab" data-toggle="pill" href="#v-graphs-favoriteGenres" role="tab" aria-controls="v-graphs-favoriteGenres" aria-selected="false">Favorite Genres</a>
+            <a class="nav-link active" id="v-graphs-ratingPerTranscoder-tab" data-toggle="pill" href="#v-graphs-ratingPerTranscoder" role="tab" aria-controls="v-graphs-ratingPerTranscoder" aria-selected="true">Rating by Transcoder</a>
+            <a class="nav-link" id="v-graphs-ratingPerGenre-tab" data-toggle="pill" href="#v-graphs-ratingPerGenre" role="tab" aria-controls="v-graphs-ratingPerGenre" aria-selected="false">Rating by Genre</a>
+            <a class="nav-link" id="v-graphs-ratingPerTranscoderPerGenre-tab" data-toggle="pill" href="#v-graphs-ratingPerTranscoderPerGenre" role="tab" aria-controls="v-graphs-ratingPerTranscoderPerGenre" aria-selected="false">Rating by Transcoder by Genre</a>
+            <a class="nav-link" id="v-graphs-favoriteGenres-tab" data-toggle="pill" href="#v-graphs-favoriteGenres" role="tab" aria-controls="v-graphs-favoriteGenres" aria-selected="false">Favorite Genres</a>
+            <a class="nav-link" id="v-graphs-demographic-tab" data-toggle="pill" href="#v-graphs-demographic" role="tab" aria-controls="v-graphs-demographic" aria-selected="false">Demographic</a>
         </div>
         <div class="tab-content" id="v-graphs-tabContent">
-          <div class="tab-pane fade show active" id="v-graphs-ratingPerTranscoder" role="tabpanel" aria-labelledby="v-graphs-ratingPerTranscoder-tab">
-             <canvas id="ratingPerTranscoder"></canvas>
-          </div>
-          <div class="tab-pane fade" id="v-graphs-ratingPerGenre" role="tabpanel" aria-labelledby="v-graphs-ratingPerGenre-tab">
-            <canvas id="ratingPerGenre"></canvas>
-          </div>
-          <div class="tab-pane fade" id="v-graphs-ratingPerTranscoderPerGenre" role="tabpanel" aria-labelledby="v-graphs-ratingPerTranscoderPerGenre-tab">
-            <canvas id="ratingPerTranscoderPerGenre"></canvas>
-          </div>
-          <div class="tab-pane fade" id="v-graphs-favoriteGenres" role="tabpanel" aria-labelledby="v-graphs-favoriteGenres-tab">
-            <canvas id="favoriteGenres"></canvas>
-          </div>
+            <div class="tab-pane fade show active" id="v-graphs-ratingPerTranscoder" role="tabpanel" aria-labelledby="v-graphs-ratingPerTranscoder-tab">
+                <canvas id="ratingPerTranscoder"></canvas>
+            </div>
+            <div class="tab-pane fade" id="v-graphs-ratingPerGenre" role="tabpanel" aria-labelledby="v-graphs-ratingPerGenre-tab">
+                <canvas id="ratingPerGenre"></canvas>
+            </div>
+            <div class="tab-pane fade" id="v-graphs-ratingPerTranscoderPerGenre" role="tabpanel" aria-labelledby="v-graphs-ratingPerTranscoderPerGenre-tab">
+                <canvas id="ratingPerTranscoderPerGenre"></canvas>
+            </div>
+            <div class="tab-pane fade" id="v-graphs-favoriteGenres" role="tabpanel" aria-labelledby="v-graphs-favoriteGenres-tab">
+                <canvas id="favoriteGenres"></canvas>
+            </div>
+            <div class="tab-pane fade row" id="v-graphs-demographic" role="tabpanel" aria-labelledby="v-graphs-demographic-tab">
+                <div  class="col-sm">
+                    <h3>Gender</h3>
+                    <canvas id="genders"></canvas>
+                </div>
+                <div  class="col-sm">
+                    <h3>Age</h3>
+                    <canvas id="ages"></canvas>
+                </div>
+            </div>
         </div>
 
     </div>
@@ -659,7 +670,7 @@
     var str_genres = '${arr_userGenres}';
     var arr_genres = str_genres.split(",");
     arr_genres = arr_genres.filter(function(entry) { return entry.trim() != ''; });
-    console.log(arr_genres);
+    //console.log(arr_genres);
 
     var arr_genres_uniq = [...new Set(arr_genres)];
     arr_genres_uniq.sort();
@@ -686,6 +697,81 @@
                 }
             ],
             labels: arr_genres_uniq
+        },
+
+        // Configuration options go here
+        options: {
+            responsive: true
+        }
+    });
+
+
+    //CHART 5
+
+    var arr_genders = [${arr_userGender}];
+    arr_genders = arr_genders.filter(function(n){ return n != undefined });
+
+    var arr_genders_uniq = [...new Set(arr_genders)];
+    arr_genders_uniq.sort();
+
+    var arr_genders_count = count_uniq(arr_genders,arr_genders_uniq);
+    var arr_genders_color = ['#FA58F4','#58ACFA'];
+
+    var ctx5 = document.getElementById('genders').getContext('2d');
+    var chart5 = new Chart(ctx5, {
+        // The type of chart we want to create
+        type: 'pie',
+
+        // The data for our dataset
+        data: {
+            datasets: [
+                {
+                    data: arr_genders_count,
+                    backgroundColor: arr_genders_color,
+                    label: 'Genders'
+                }
+            ],
+            labels: arr_genders_uniq
+        },
+
+        // Configuration options go here
+        options: {
+            responsive: true
+        }
+    });
+
+
+    //CHART 6
+
+    var arr_ages = [${arr_userAge}];
+    arr_ages = arr_ages.filter(function(n){ return n != undefined });
+
+    var arr_ages_uniq = [...new Set(arr_ages)];
+    arr_ages_uniq.sort();
+
+    var arr_ages_count = count_uniq(arr_ages,arr_ages_uniq);
+
+    var arr_ages_color = [];
+    arr_ages_uniq.forEach(function(element){
+        arr_ages_color.push('#'+element.toHexColour());
+    });
+
+
+    var ctx6 = document.getElementById('ages').getContext('2d');
+    var chart6 = new Chart(ctx6, {
+        // The type of chart we want to create
+        type: 'pie',
+
+        // The data for our dataset
+        data: {
+            datasets: [
+                {
+                    data: arr_ages_count,
+                    backgroundColor: arr_ages_color,
+                    label: 'Ages'
+                }
+            ],
+            labels: arr_ages_uniq
         },
 
         // Configuration options go here
