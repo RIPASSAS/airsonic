@@ -115,7 +115,7 @@
                             <fmt:message key="common.unknown" var="entryMfTitle"/>
                         </c:when>
                         <c:otherwise>
-                            <c:set var="entryMfTitle" value="${qoeEntry.mfTitle}"/>
+                            <c:set var="entryMfTitle" value="${fn:replace(qoeEntry.mfTitle, ',','.')}"/>
                         </c:otherwise>
                     </c:choose>
 
@@ -124,7 +124,7 @@
                             <fmt:message key="common.unknown" var="entryMfArtist"/>
                         </c:when>
                         <c:otherwise>
-                            <c:set var="entryMfArtist" value="${qoeEntry.mfArtist}"/>
+                            <c:set var="entryMfArtist" value="${fn:replace(qoeEntry.mfArtist, ',','.')}"/>
                         </c:otherwise>
                     </c:choose>
 
