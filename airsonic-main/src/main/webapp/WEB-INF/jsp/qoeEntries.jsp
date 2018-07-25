@@ -54,7 +54,7 @@
     <a class="nav-link" id="graphs-tab" data-toggle="tab" role="tab" aria-controls="grapsh" aria-selected="false" href="#graphs">Graphs</a>
   </li>
 </ul>
-<div class="tab-content" id="myTabContent">
+<div class="tab-content container-fluid" id="myTabContent">
     <div id="tables" class="tab-pane fade show active" role="tabpanel" aria-labelledby="tables-tab">
         <br />
         <table class="table table-striped table-sm" id="ratingTable">
@@ -294,6 +294,10 @@
                         <td>${userGenres}</td>
                     </tr>
                     <c:set var="users_csv" value="${users_csv}##${userId},${userGender},${userAge},${userGenres}" />
+                    <c:set var="arr_userId" value="${arr_userId},${userId}" />
+                    <c:set var="arr_userGender" value="${arr_userGender},${userGender}" />
+                    <c:set var="arr_userAge" value="${arr_userAge},${userAge}" />
+                    <c:set var="arr_userGenres" value="${arr_userGenres},${userGenres}" />
                 </c:forEach>
             </tbody>
         </table>
@@ -313,13 +317,26 @@
 
     <div id="graphs" class="tab-pane fade" role="tabpanel" aria-labelledby="graphs-tab">
 
-        <canvas id="ratingPerTranscoder"></canvas>
-
-        <canvas id="ratingPerGenre"></canvas>
-
-        <canvas id="ratingPerTranscoderPerGenre"></canvas>
-
-        <div id="chart_div"></div>
+        <div class="nav flex-column nav-pills" id="v-graphs-tab" role="tablist" aria-orientation="vertical">
+          <a class="nav-link active" id="v-graphs-ratingPerTranscoder-tab" data-toggle="pill" href="#v-graphs-ratingPerTranscoder" role="tab" aria-controls="v-graphs-ratingPerTranscoder" aria-selected="true">Rating by Transcoder</a>
+          <a class="nav-link" id="v-graphs-ratingPerGenre-tab" data-toggle="pill" href="#v-graphs-ratingPerGenre" role="tab" aria-controls="v-graphs-ratingPerGenre" aria-selected="false">Rating by Genre</a>
+          <a class="nav-link" id="v-graphs-ratingPerTranscoderPerGenre-tab" data-toggle="pill" href="#v-graphs-ratingPerTranscoderPerGenre" role="tab" aria-controls="v-graphs-ratingPerTranscoderPerGenre" aria-selected="false">Rating by Transcoder by Genre</a>
+          <a class="nav-link" id="v-graphs-favoriteGenres-tab" data-toggle="pill" href="#v-graphs-favoriteGenres" role="tab" aria-controls="v-graphs-favoriteGenres" aria-selected="false">Favorite Genres</a>
+        </div>
+        <div class="tab-content" id="v-graphs-tabContent">
+          <div class="tab-pane fade show active" id="v-graphs-ratingPerTranscoder" role="tabpanel" aria-labelledby="v-graphs-ratingPerTranscoder-tab">
+             <canvas id="ratingPerTranscoder"></canvas>
+          </div>
+          <div class="tab-pane fade" id="v-graphs-ratingPerGenre" role="tabpanel" aria-labelledby="v-graphs-ratingPerGenre-tab">
+            <canvas id="ratingPerGenre"></canvas>
+          </div>
+          <div class="tab-pane fade" id="v-graphs-ratingPerTranscoderPerGenre" role="tabpanel" aria-labelledby="v-graphs-ratingPerTranscoderPerGenre-tab">
+            <canvas id="ratingPerTranscoderPerGenre"></canvas>
+          </div>
+          <div class="tab-pane fade" id="v-graphs-favoriteGenres" role="tabpanel" aria-labelledby="v-graphs-favoriteGenres-tab">
+            <canvas id="favoriteGenres"></canvas>
+          </div>
+        </div>
 
     </div>
 </div>
@@ -410,6 +427,15 @@
         return auxArr;
     }
 
+    function count_uniq(keys,keys_uniq){
+        let auxArr = [];
+        keys_uniq.forEach(function(element) {
+            let indexes = indexesOf(element,keys);
+            auxArr.push(indexes.length);
+        });
+        return auxArr;
+    }
+
     function codecOrderedByBitrate(keys_uniq, values_uniq, tcName, arr_birate){
         let auxArr = [];
         indexes = indexesOfSimilar(tcName, keys_uniq);
@@ -429,21 +455,21 @@
     }
 
     function genreOrderedByCodec(keys, values, arr_tcName, arr_tcName_uniq, genre){
-            let auxArr = [];
-            arr_tcName_uniq.forEach(function(element){
-                console.log(element);
-                console.log(genre);
-                indexes = indexesOf2Similar(genre,element,keys,arr_tcName);
-                console.log("Indexes:");
-                console.log(indexes);
-                let sum = 0;
-                indexes.forEach(function(element2){
-                    sum+=values[element2];
-                });
-                auxArr.push(sum/indexes.length);
+        let auxArr = [];
+        arr_tcName_uniq.forEach(function(element){
+            console.log(element);
+            console.log(genre);
+            indexes = indexesOf2Similar(genre,element,keys,arr_tcName);
+            console.log("Indexes:");
+            console.log(indexes);
+            let sum = 0;
+            indexes.forEach(function(element2){
+                sum+=values[element2];
             });
-            return auxArr;
-        }
+            auxArr.push(sum/indexes.length);
+        });
+        return auxArr;
+    }
 
 
 
@@ -492,24 +518,24 @@
         data: {
             labels: arr_bitrates,
             datasets: [
-            {
-                label: "Opus",
-                backgroundColor: 'rgb(255, 99, 132)',
-                borderColor: 'rgb(255, 99, 132)',
-                data: arr_opus_val,
-            },
-            {
-                label: "Mp3",
-                backgroundColor: 'rgb(93, 73, 251)',
-                borderColor: 'rgb(93, 73, 251)',
-                data: arr_mp3_val,
-            },
-            {
-                label: "Flac",
-                backgroundColor: 'rgb(78, 216, 138)',
-                borderColor: 'rgb(78, 216, 138)',
-                data: arr_flac_val,
-            }
+                {
+                    label: "Opus",
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: arr_opus_val,
+                },
+                {
+                    label: "Mp3",
+                    backgroundColor: 'rgb(93, 73, 251)',
+                    borderColor: 'rgb(93, 73, 251)',
+                    data: arr_mp3_val,
+                },
+                {
+                    label: "Flac",
+                    backgroundColor: 'rgb(78, 216, 138)',
+                    borderColor: 'rgb(78, 216, 138)',
+                    data: arr_flac_val,
+                }
             ]
         },
 
@@ -537,96 +563,137 @@
     //console.log(arr_mfGenre_rating_uniq);
 
     var ctx2 = document.getElementById('ratingPerGenre').getContext('2d');
-        var chart = new Chart(ctx2, {
-            // The type of chart we want to create
-            type: 'bar',
+    var chart2 = new Chart(ctx2, {
+        // The type of chart we want to create
+        type: 'bar',
 
-            // The data for our dataset
-            data: {
-                labels: arr_mfGenre_uniq,
-                datasets: [
+        // The data for our dataset
+        data: {
+            labels: arr_mfGenre_uniq,
+            datasets: [
                 {
                     label: "Genres",
                     backgroundColor: 'rgb(44, 49, 55)',
                     borderColor: 'rgb(44, 49, 55)',
                     data: arr_mfGenre_rating_uniq,
                 }
-                ]
-            },
+            ]
+        },
 
-            // Configuration options go here
-            options: {
-                scales: {
-                      yAxes: [{
-                                ticks: {
-                                    suggestedMin: 0,
-                                    suggestedMax: 100
-                                },
-                                labelString: "Rating (Average)"
+        // Configuration options go here
+        options: {
+            scales: {
+                  yAxes: [{
+                            ticks: {
+                                suggestedMin: 0,
+                                suggestedMax: 100
+                            },
+                            labelString: "Rating (Average)"
 
-                      }],
-                      xAxes: [{
-                                labelString: "Genres"
-                      }]
-                }
+                  }],
+                  xAxes: [{
+                            labelString: "Genres"
+                  }]
             }
-        });
+        }
+    });
 
-        //CHART 3
+    //CHART 3
 
-        var arr_tcName_mfGenre_rating_uniq = [];
+    var arr_tcName_mfGenre_rating_uniq = [];
 
-        arr_mfGenre_uniq.forEach(function(element){
-            let auxArr;
-            auxArr = genreOrderedByCodec(arr_mfGenre, arr_rating, arr_tcName, arr_tcName_uniq, element);
-            arr_tcName_mfGenre_rating_uniq.push(auxArr);
-        });
+    arr_mfGenre_uniq.forEach(function(element){
+        let auxArr;
+        auxArr = genreOrderedByCodec(arr_mfGenre, arr_rating, arr_tcName, arr_tcName_uniq, element);
+        arr_tcName_mfGenre_rating_uniq.push(auxArr);
+    });
 
-        var datasetsGraph3 = [];
+    var datasetsGraph3 = [];
 
-        arr_tcName_mfGenre_rating_uniq.forEach(function(element, index){
-                console.log("Element:");
-                console.log(element);
-                console.log("Colour");
-                console.log(arr_mfGenre_uniq[index].toHexColour());
-                datasetsGraph3.push({
-                        label: arr_mfGenre_uniq[index],
-                        backgroundColor: '#'+arr_mfGenre_uniq[index].toHexColour(),
-                        data: element,
-                });
-        });
+    arr_tcName_mfGenre_rating_uniq.forEach(function(element, index){
+            //console.log("Element:");
+            //console.log(element);
+            //console.log("Colour");
+            //console.log(arr_mfGenre_uniq[index].toHexColour());
+            datasetsGraph3.push({
+                    label: arr_mfGenre_uniq[index],
+                    backgroundColor: '#'+arr_mfGenre_uniq[index].toHexColour(),
+                    data: element,
+            });
+    });
 
 
-        var ctx3 = document.getElementById('ratingPerTranscoderPerGenre').getContext('2d');
-                var chart = new Chart(ctx3, {
-                    // The type of chart we want to create
-                    type: 'bar',
+    var ctx3 = document.getElementById('ratingPerTranscoderPerGenre').getContext('2d');
+    var chart3 = new Chart(ctx3, {
+        // The type of chart we want to create
+        type: 'bar',
 
-                    // The data for our dataset
-                    data: {
-                        labels: arr_tcName_uniq,
-                        datasets: datasetsGraph3
-                    },
+        // The data for our dataset
+        data: {
+            labels: arr_tcName_uniq,
+            datasets: datasetsGraph3
+        },
 
-                    // Configuration options go here
-                    options: {
-                        scales: {
-                              yAxes: [{
-                                        ticks: {
-                                            suggestedMin: 0,
-                                            suggestedMax: 100
-                                        },
-                                        stacked: false,
-                                        labelString: "Rating (Average)"
+        // Configuration options go here
+        options: {
+            scales: {
+                  yAxes: [{
+                            ticks: {
+                                suggestedMin: 0,
+                                suggestedMax: 100
+                            },
+                            stacked: false,
+                            labelString: "Rating (Average)"
 
-                              }],
-                              xAxes: [{
-                                        stacked: false,
-                                        labelString: "Transcoding"
-                              }]
-                        }
-                    }
-                });
+                  }],
+                  xAxes: [{
+                            stacked: false,
+                            labelString: "Transcoding"
+                  }]
+            }
+        }
+    });
+
+    //CHART 4
+
+    var str_genres = '${arr_userGenres}';
+    var arr_genres = str_genres.split(",");
+    arr_genres = arr_genres.filter(function(entry) { return entry.trim() != ''; });
+    console.log(arr_genres);
+
+    var arr_genres_uniq = [...new Set(arr_genres)];
+    arr_genres_uniq.sort();
+
+    var arr_genres_count = count_uniq(arr_genres,arr_genres_uniq);
+    var arr_genres_color = [];
+
+    arr_genres_uniq.forEach(function(element){
+        arr_genres_color.push('#'+element.toHexColour());
+    });
+
+    var ctx4 = document.getElementById('favoriteGenres').getContext('2d');
+    var chart4 = new Chart(ctx4, {
+        // The type of chart we want to create
+        type: 'pie',
+
+        // The data for our dataset
+        data: {
+            datasets: [
+                {
+                    data: arr_genres_count,
+                    backgroundColor: arr_genres_color,
+                    label: 'Genres'
+                }
+            ],
+            labels: arr_genres_uniq
+        },
+
+        // Configuration options go here
+        options: {
+            responsive: true
+        }
+    });
+
 
 
 </script>
