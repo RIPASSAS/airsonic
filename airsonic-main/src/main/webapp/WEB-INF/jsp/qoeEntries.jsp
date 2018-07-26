@@ -42,7 +42,7 @@
 <body class="mainframe bgcolor1">
 
 <h1>
-    <img src="<spring:theme code="statusImage"/>" alt="">
+    <img src="icons/ripserver/graphs.png" alt="">
     <span style="vertical-align: middle"><fmt:message key="qoeEntries.title"/></span>
 </h1>
 
