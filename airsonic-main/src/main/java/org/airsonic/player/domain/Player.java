@@ -31,7 +31,7 @@ import java.util.Date;
  */
 public class Player {
 
-    private String id;
+    private Integer id;
     private String name;
     private PlayerTechnology technology = PlayerTechnology.WEB;
     private String clientId;
@@ -52,7 +52,7 @@ public class Player {
      *
      * @return The player ID.
      */
-    public String getId() {
+    public Integer getId() {
         return id;
     }
 
@@ -61,7 +61,7 @@ public class Player {
      *
      * @param id The player ID.
      */
-    public void setId(String id) {
+    public void setId(Integer id) {
         this.id = id;
     }
 
