@@ -504,7 +504,7 @@
     arr_mfGenre_uniq.sort();
     //console.log(arr_mfGenre_uniq);
 
-    var arr_bitrates = [64,128,192,"vbr"];
+    var arr_bitrates = [32,64,128,"vbr"];
     //console.log(arr_bitrates);
 
 
