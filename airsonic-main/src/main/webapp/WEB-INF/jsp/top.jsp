@@ -113,10 +113,12 @@
                 <div class="topHeader"><a href="settings.view?" target="main">${settings}</a></div>
             </td>
         </c:if>
-        <td style="min-width:3em;padding-right:1em;text-align: center">
-            <a href="qoeEntries.view?" target="main"><img src="icons/ripserver/graphs.png" title="${qoeStats}" alt="${qoeStats}"></a>
-            <div class="topHeader"><a href="qoeEntries.view?" target="main">${qoeStats}</a></div>
-        </td>
+        <c:if test="${model.user.podcastRole}">
+            <td style="min-width:3em;padding-right:1em;text-align: center">
+                <a href="qoeEntries.view?" target="main"><img src="icons/ripserver/graphs.png" title="${qoeStats}" alt="${qoeStats}"></a>
+                <div class="topHeader"><a href="qoeEntries.view?" target="main">${qoeStats}</a></div>
+            </td>
+        </c:if>
         <td style="min-width:3em;padding-right:1em;text-align: center">
             <a href="status.view?" target="main"><img src="<spring:theme code="statusImage"/>" title="${status}" alt="${status}"></a>
             <div class="topHeader"><a href="status.view?" target="main">${status}</a></div>

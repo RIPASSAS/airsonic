@@ -133,7 +133,7 @@ public class GlobalSecurityConfig extends GlobalAuthenticationConfigurerAdapter 
                             "/playerSettings*", "/shareSettings*", "/passwordSettings*")
                     .hasRole("SETTINGS")
                     .antMatchers("/generalSettings*", "/advancedSettings*", "/userSettings*",
-                            "/musicFolderSettings*", "/databaseSettings*", "/transcodeSettings*", "/qoeEntries*", "/rest/startScan*")
+                            "/musicFolderSettings*", "/databaseSettings*", "/transcodeSettings*", "/rest/startScan*")
                     .hasRole("ADMIN")
                     .antMatchers("/deletePlaylist*", "/savePlaylist*", "/db*")
                     .hasRole("PLAYLIST")
@@ -147,7 +147,7 @@ public class GlobalSecurityConfig extends GlobalAuthenticationConfigurerAdapter 
                     .hasRole("COVERART")
                     .antMatchers("/setMusicFileInfo*")
                     .hasRole("COMMENT")
-                    .antMatchers("/podcastReceiverAdmin*")
+                    .antMatchers("/podcastReceiverAdmin*", "/qoeEntries*")
                     .hasRole("PODCAST")
                     .antMatchers("/**")
                     .hasRole("USER")
