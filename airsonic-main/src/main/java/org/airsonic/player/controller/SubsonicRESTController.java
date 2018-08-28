@@ -2529,7 +2529,7 @@ public class SubsonicRESTController {
             Player player = new Player();
             player.setIpAddress(request.getRemoteAddr());
             player.setUsername(username);
-            if(clientId.startsWith("MyMusicQoE-API")){
+            if(clientId.startsWith("MyMusicQoE")){
                 player.setApiLevel(Integer.parseInt(clientId.substring(Math.max(clientId.length() - 2, 0))));
             }
             player.setClientId(clientId);

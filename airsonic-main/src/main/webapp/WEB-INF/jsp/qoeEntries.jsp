@@ -318,15 +318,20 @@
     <div id="graphs" class="tab-pane fade" role="tabpanel" aria-labelledby="graphs-tab">
 
         <div class="nav flex-column nav-pills" id="v-graphs-tab" role="tablist" aria-orientation="vertical">
-            <a class="nav-link active" id="v-graphs-ratingPerTranscoder-tab" data-toggle="pill" href="#v-graphs-ratingPerTranscoder" role="tab" aria-controls="v-graphs-ratingPerTranscoder" aria-selected="true">Rating by Transcoder</a>
-            <a class="nav-link" id="v-graphs-ratingPerGenre-tab" data-toggle="pill" href="#v-graphs-ratingPerGenre" role="tab" aria-controls="v-graphs-ratingPerGenre" aria-selected="false">Rating by Genre</a>
-            <a class="nav-link" id="v-graphs-ratingPerTranscoderPerGenre-tab" data-toggle="pill" href="#v-graphs-ratingPerTranscoderPerGenre" role="tab" aria-controls="v-graphs-ratingPerTranscoderPerGenre" aria-selected="false">Rating by Transcoder by Genre</a>
+            <a class="nav-link active" id="v-graphs-ratingPerTranscoder-tab" data-toggle="pill" href="#v-graphs-ratingPerTranscoder" role="tab" aria-controls="v-graphs-ratingPerTranscoder" aria-selected="true">Average Rating by Transcoder</a>
+            <a class="nav-link" id="v-graphs-ratingPerGenre-tab" data-toggle="pill" href="#v-graphs-ratingPerGenre" role="tab" aria-controls="v-graphs-ratingPerGenre" aria-selected="false">Average Rating by Genre</a>
+            <a class="nav-link" id="v-graphs-ratingPerTranscoderPerGenre-tab" data-toggle="pill" href="#v-graphs-ratingPerTranscoderPerGenre" role="tab" aria-controls="v-graphs-ratingPerTranscoderPerGenre" aria-selected="false">Average Rating by Transcoder by Genre</a>
             <a class="nav-link" id="v-graphs-favoriteGenres-tab" data-toggle="pill" href="#v-graphs-favoriteGenres" role="tab" aria-controls="v-graphs-favoriteGenres" aria-selected="false">Favorite Genres</a>
             <a class="nav-link" id="v-graphs-demographic-tab" data-toggle="pill" href="#v-graphs-demographic" role="tab" aria-controls="v-graphs-demographic" aria-selected="false">Demographic</a>
         </div>
         <div class="tab-content" id="v-graphs-tabContent">
             <div class="tab-pane fade show active" id="v-graphs-ratingPerTranscoder" role="tabpanel" aria-labelledby="v-graphs-ratingPerTranscoder-tab">
+                <h5>All Entries</h5>
                 <canvas id="ratingPerTranscoder"></canvas>
+                <h5>Entries without Headphones</h5>
+                <canvas id="ratingPerTranscoderNoHeaphones"></canvas>
+                <h5>Entries with Headphones</h5>
+                <canvas id="ratingPerTranscoderHeaphones"></canvas>
             </div>
             <div class="tab-pane fade" id="v-graphs-ratingPerGenre" role="tabpanel" aria-labelledby="v-graphs-ratingPerGenre-tab">
                 <canvas id="ratingPerGenre"></canvas>
@@ -438,6 +443,23 @@
         return auxArr;
     }
 
+    function avg_values_h_uniq(keys,values,keys_uniq,arr_headphones,isHeadphones){
+        let auxArr = [];
+        keys_uniq.forEach(function(element) {
+            let indexes = indexesOf(element,keys);
+            let sum = 0;
+            let size = 0;
+            indexes.forEach(function(element2){
+                if(arr_headphones[element2]==isHeadphones){
+                    sum+=values[element2];
+                    size++;
+                }
+            });
+            auxArr.push(sum/size);
+        });
+        return auxArr;
+    }
+
     function count_uniq(keys,keys_uniq){
         let auxArr = [];
         keys_uniq.forEach(function(element) {
@@ -496,8 +518,9 @@
     arr_rating = arr_rating.filter(function(n){ return n != undefined });
     //console.log(arr_rating);
 
-    var arr_tcName_uniq = [...new Set(arr_tcName)];
-    arr_tcName_uniq.sort();
+    //var arr_tcName_uniq = [...new Set(arr_tcName)];
+    //arr_tcName_uniq.sort();
+    arr_tcName_uniq = ["opus 32","mp3 32","opus 64","mp3 64","opus 128","mp3 128","opus 192","mp3 192","flac"];
     //console.log(arr_tcName_uniq);
 
     var arr_mfGenre_uniq = [...new Set(arr_mfGenre)];
@@ -507,6 +530,8 @@
     var arr_bitrates = [32,64,128,192,"vbr"];
     //console.log(arr_bitrates);
 
+    var arr_headphones = [${arr_entryHeadphones}];
+    console.log()
 
 
     //CHART 1
@@ -546,6 +571,116 @@
                     backgroundColor: 'rgb(78, 216, 138)',
                     borderColor: 'rgb(78, 216, 138)',
                     data: arr_flac_val,
+                }
+            ]
+        },
+
+        // Configuration options go here
+        options: {
+            scales: {
+                  yAxes: [{
+                            ticks: {
+                                suggestedMin: 0,
+                                suggestedMax: 100
+                            },
+                            labelString: "Rating (Average)"
+
+                  }],
+                  xAxes: [{
+                            labelString: "Bitrate"
+                  }]
+            }
+        }
+    });
+
+    //CHART 1.1
+    var arr_tcName_rating_nh_uniq = avg_values_h_uniq(arr_tcName,arr_rating,arr_tcName_uniq,arr_headphones,"false");
+
+    var arr_opus_nh_val = codecOrderedByBitrate(arr_tcName_uniq, arr_tcName_rating_nh_uniq, "opus", arr_bitrates);
+    var arr_mp3_nh_val = codecOrderedByBitrate(arr_tcName_uniq, arr_tcName_rating_nh_uniq, "mp3", arr_bitrates);
+    var arr_flac_nh_val = codecOrderedByBitrate(arr_tcName_uniq, arr_tcName_rating_nh_uniq, "flac", arr_bitrates);
+
+    var ctx1_1 = document.getElementById('ratingPerTranscoderNoHeaphones').getContext('2d');
+    var chart1_1 = new Chart(ctx1_1, {
+        // The type of chart we want to create
+        type: 'bar',
+
+        // The data for our dataset
+        data: {
+            labels: arr_bitrates,
+            datasets: [
+                {
+                    label: "Opus",
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: arr_opus_nh_val,
+                },
+                {
+                    label: "Mp3",
+                    backgroundColor: 'rgb(93, 73, 251)',
+                    borderColor: 'rgb(93, 73, 251)',
+                    data: arr_mp3_nh_val,
+                },
+                {
+                    label: "Flac",
+                    backgroundColor: 'rgb(78, 216, 138)',
+                    borderColor: 'rgb(78, 216, 138)',
+                    data: arr_flac_nh_val,
+                }
+            ]
+        },
+
+        // Configuration options go here
+        options: {
+            scales: {
+                  yAxes: [{
+                            ticks: {
+                                suggestedMin: 0,
+                                suggestedMax: 100
+                            },
+                            labelString: "Rating (Average)"
+
+                  }],
+                  xAxes: [{
+                            labelString: "Bitrate"
+                  }]
+            }
+        }
+    });
+
+    //CHART 1.2
+    var arr_tcName_rating_h_uniq = avg_values_h_uniq(arr_tcName,arr_rating,arr_tcName_uniq,arr_headphones,"true");
+
+    var arr_opus_h_val = codecOrderedByBitrate(arr_tcName_uniq, arr_tcName_rating_h_uniq, "opus", arr_bitrates);
+    var arr_mp3_h_val = codecOrderedByBitrate(arr_tcName_uniq, arr_tcName_rating_h_uniq, "mp3", arr_bitrates);
+    var arr_flac_h_val = codecOrderedByBitrate(arr_tcName_uniq, arr_tcName_rating_h_uniq, "flac", arr_bitrates);
+
+    var ctx1_2 = document.getElementById('ratingPerTranscoderHeaphones').getContext('2d');
+    var chart1_2 = new Chart(ctx1_2, {
+        // The type of chart we want to create
+        type: 'bar',
+
+        // The data for our dataset
+        data: {
+            labels: arr_bitrates,
+            datasets: [
+                {
+                    label: "Opus",
+                    backgroundColor: 'rgb(255, 99, 132)',
+                    borderColor: 'rgb(255, 99, 132)',
+                    data: arr_opus_h_val,
+                },
+                {
+                    label: "Mp3",
+                    backgroundColor: 'rgb(93, 73, 251)',
+                    borderColor: 'rgb(93, 73, 251)',
+                    data: arr_mp3_h_val,
+                },
+                {
+                    label: "Flac",
+                    backgroundColor: 'rgb(78, 216, 138)',
+                    borderColor: 'rgb(78, 216, 138)',
+                    data: arr_flac_h_val,
                 }
             ]
         },

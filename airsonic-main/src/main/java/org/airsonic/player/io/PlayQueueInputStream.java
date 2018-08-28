@@ -121,6 +121,7 @@ public class PlayQueueInputStream extends InputStream {
         } else if (!file.equals(currentFile)) {
             close();
             LOG.info(player.getUsername() + " listening to \"" + FileUtil.getShortPath(file.getFile()) + "\"");
+            LOG.info("Transcoding for player: " + player.getName() + ", IP Address: " + player.getIpAddress() + ", File: \"" + FileUtil.getShortPath(file.getFile()) + "\", TranscoderNum: " + transcoderNum);
             mediaFileService.incrementPlayCount(file);
 
             // Don't scrobble REST players (except Sonos)
