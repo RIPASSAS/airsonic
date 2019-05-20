@@ -7,8 +7,11 @@ MyMusicQoE
 =======
 
 The focus of this MyMusicQoE is to gather information about the quality of expirience of a music streaming service.
+For the Android app part of this project, check out (https://github.com/albertolalanda/new-ultrasonic-fork-for-MyMusicQoE)
 
-In order to acomplish this, we are using the FOSS streaming platform Airsonic.
+![Output sample](https://github.com/albertolalanda/new-ultrasonic-fork-for-MyMusicQoE/blob/master/demonstration.gif)
+
+In order to acomplish this, we are using the FOSS streaming platform Airsonic and compatible Android client, Ultrasonic.
 We will be focusing in the transcoding side of airsonic to gather data about codecs and it's setting with the best quality/size ratio.
 
 
